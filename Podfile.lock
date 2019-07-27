@@ -1,6 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
-  - KiNetworking (1.2):
+  - KiNetworking (1.2.3):
     - Alamofire
     - PromisesSwift
     - SwiftyJSON
@@ -28,13 +28,13 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
-  KiNetworking: dd5929b0261758e0547e47d0d931310ce03902dd
+  KiNetworking: 6efd5cc255f02158cb3aef66c30f7b5ed40122f6
   Nimble: 622629381bda1dd5678162f21f1368cec7cbba60
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
   PromisesSwift: 37bad6f4daddb02f7c9c531efe91e8b21c13ee2f
   Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: e017f550d5bc740b2a1ebb049c1d18c67ed86c76
+PODFILE CHECKSUM: b7aa3e8b9409d20438ba93b341b2a4920b64f73e
 
 COCOAPODS: 1.6.1

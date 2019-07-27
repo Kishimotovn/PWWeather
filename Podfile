@@ -14,5 +14,4 @@ target 'PocketWorksWeather' do
     pod 'Quick'
     pod 'Nimble'
   end
-
 end

@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import Promises
 
 protocol PWAPIServiceProtocol {
+  func getCityWeather(for cityIds: [String]) -> Promise<[CityWeatherResponse]>
 }

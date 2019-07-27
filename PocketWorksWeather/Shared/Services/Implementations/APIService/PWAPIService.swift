@@ -7,7 +7,24 @@
 //
 
 import Foundation
+import KiNetworking
+import Promises
 
 class PWAPIService: PWAPIServiceProtocol {
-  
+  let executor: APIService = {
+    let delegate = PWAPIServiceDelegate()
+    if let config = APIServiceConfig(base: PWEnvironment.current.apiBaseURL,
+                                     commonHeaders: [:]) {
+      return APIService(config, delegate: delegate)
+    }
+    fatalError("API Service not configured")
+  }()
+
+  func getCityWeather(for cityIds: [String]) -> Promise<[CityWeatherResponse]> {
+    return GetWeatherDataForCitiesOperation(cityIds: cityIds)
+      .execute(in: self.executor)
+      .then { cityListResponse in
+      return cityListResponse.list
+    }
+  }
 }

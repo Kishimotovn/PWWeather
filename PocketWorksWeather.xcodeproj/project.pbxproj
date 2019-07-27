@@ -18,6 +18,14 @@
 		B49321F822EC58EB0029E158 /* PWAPIServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49321F722EC58EB0029E158 /* PWAPIServiceProtocol.swift */; };
 		B49321FA22EC59000029E158 /* PWAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49321F922EC59000029E158 /* PWAPIService.swift */; };
 		B49321FC22EC59470029E158 /* PWSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49321FB22EC59470029E158 /* PWSession.swift */; };
+		B493220322EC5B9F0029E158 /* CityWeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220222EC5B9F0029E158 /* CityWeatherResponse.swift */; };
+		B493220522EC5DDF0029E158 /* GetWeatherDataForCitiesOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220422EC5DDF0029E158 /* GetWeatherDataForCitiesOperation.swift */; };
+		B493220822EC5E450029E158 /* PWOpenWeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220722EC5E450029E158 /* PWOpenWeatherRequest.swift */; };
+		B493220A22EC5E7C0029E158 /* PWAPIDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220922EC5E7C0029E158 /* PWAPIDelegate.swift */; };
+		B493220C22EC85410029E158 /* PWUnit.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220B22EC85410029E158 /* PWUnit.swift */; };
+		B493220E22EC85A70029E158 /* PWUserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220D22EC85A70029E158 /* PWUserKey.swift */; };
+		B493221022EC86DB0029E158 /* CityWeatherListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220F22EC86DB0029E158 /* CityWeatherListResponse.swift */; };
+		B493221322EC89F10029E158 /* PWAPIServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493221222EC89F10029E158 /* PWAPIServiceSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +62,14 @@
 		B49321F722EC58EB0029E158 /* PWAPIServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWAPIServiceProtocol.swift; sourceTree = "<group>"; };
 		B49321F922EC59000029E158 /* PWAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWAPIService.swift; sourceTree = "<group>"; };
 		B49321FB22EC59470029E158 /* PWSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWSession.swift; sourceTree = "<group>"; };
+		B493220222EC5B9F0029E158 /* CityWeatherResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherResponse.swift; sourceTree = "<group>"; };
+		B493220422EC5DDF0029E158 /* GetWeatherDataForCitiesOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWeatherDataForCitiesOperation.swift; sourceTree = "<group>"; };
+		B493220722EC5E450029E158 /* PWOpenWeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWOpenWeatherRequest.swift; sourceTree = "<group>"; };
+		B493220922EC5E7C0029E158 /* PWAPIDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWAPIDelegate.swift; sourceTree = "<group>"; };
+		B493220B22EC85410029E158 /* PWUnit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWUnit.swift; sourceTree = "<group>"; };
+		B493220D22EC85A70029E158 /* PWUserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWUserKey.swift; sourceTree = "<group>"; };
+		B493220F22EC86DB0029E158 /* CityWeatherListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherListResponse.swift; sourceTree = "<group>"; };
+		B493221222EC89F10029E158 /* PWAPIServiceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWAPIServiceSpec.swift; sourceTree = "<group>"; };
 		B96B88ECF7F3E29E8E0FD15E /* Pods-PocketWorksWeatherTests.release (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeatherTests.release (prod).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeatherTests/Pods-PocketWorksWeatherTests.release (prod).xcconfig"; sourceTree = "<group>"; };
 		D8AA04E593D5FC8B9145D10C /* Pods-PocketWorksWeatherTests.debug (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeatherTests.debug (prod).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeatherTests/Pods-PocketWorksWeatherTests.debug (prod).xcconfig"; sourceTree = "<group>"; };
 		DF5AFA3256F51B1F8038CD2C /* Pods-PocketWorksWeather.release (dev).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeather.release (dev).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeather/Pods-PocketWorksWeather.release (dev).xcconfig"; sourceTree = "<group>"; };
@@ -112,6 +128,7 @@
 		B49321C622EC4E130029E158 /* PocketWorksWeather */ = {
 			isa = PBXGroup;
 			children = (
+				B493220622EC5E2A0029E158 /* APIOperations */,
 				B493220022EC5B230029E158 /* Scenes */,
 				B49321FF22EC5B120029E158 /* Models */,
 				B49321F022EC522E0029E158 /* Shared */,
@@ -126,6 +143,7 @@
 		B49321DB22EC4E130029E158 /* PocketWorksWeatherTests */ = {
 			isa = PBXGroup;
 			children = (
+				B493221122EC89DE0029E158 /* Services */,
 				B49321DC22EC4E130029E158 /* PocketWorksWeatherTests.swift */,
 				B49321DE22EC4E130029E158 /* Info.plist */,
 			);
@@ -171,6 +189,7 @@
 			children = (
 				B49321F222EC52490029E158 /* PWEnvironment.swift */,
 				B49321FB22EC59470029E158 /* PWSession.swift */,
+				B493220D22EC85A70029E158 /* PWUserKey.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -204,21 +223,15 @@
 			isa = PBXGroup;
 			children = (
 				B49321F922EC59000029E158 /* PWAPIService.swift */,
-				B49321FE22EC5A1B0029E158 /* Operations */,
 			);
 			path = APIService;
-			sourceTree = "<group>";
-		};
-		B49321FE22EC5A1B0029E158 /* Operations */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Operations;
 			sourceTree = "<group>";
 		};
 		B49321FF22EC5B120029E158 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B493220122EC5B7C0029E158 /* APIReponses */,
+				B493220B22EC85410029E158 /* PWUnit.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,6 +241,33 @@
 			children = (
 			);
 			path = Scenes;
+			sourceTree = "<group>";
+		};
+		B493220122EC5B7C0029E158 /* APIReponses */ = {
+			isa = PBXGroup;
+			children = (
+				B493220222EC5B9F0029E158 /* CityWeatherResponse.swift */,
+				B493220F22EC86DB0029E158 /* CityWeatherListResponse.swift */,
+			);
+			path = APIReponses;
+			sourceTree = "<group>";
+		};
+		B493220622EC5E2A0029E158 /* APIOperations */ = {
+			isa = PBXGroup;
+			children = (
+				B493220422EC5DDF0029E158 /* GetWeatherDataForCitiesOperation.swift */,
+				B493220722EC5E450029E158 /* PWOpenWeatherRequest.swift */,
+				B493220922EC5E7C0029E158 /* PWAPIDelegate.swift */,
+			);
+			path = APIOperations;
+			sourceTree = "<group>";
+		};
+		B493221122EC89DE0029E158 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				B493221222EC89F10029E158 /* PWAPIServiceSpec.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		CEEF9C29809C98CC28AE78D3 /* Pods */ = {
@@ -455,8 +495,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B493221022EC86DB0029E158 /* CityWeatherListResponse.swift in Sources */,
+				B493220C22EC85410029E158 /* PWUnit.swift in Sources */,
+				B493220322EC5B9F0029E158 /* CityWeatherResponse.swift in Sources */,
+				B493220E22EC85A70029E158 /* PWUserKey.swift in Sources */,
+				B493220A22EC5E7C0029E158 /* PWAPIDelegate.swift in Sources */,
 				B49321F322EC52490029E158 /* PWEnvironment.swift in Sources */,
+				B493220822EC5E450029E158 /* PWOpenWeatherRequest.swift in Sources */,
 				B49321F822EC58EB0029E158 /* PWAPIServiceProtocol.swift in Sources */,
+				B493220522EC5DDF0029E158 /* GetWeatherDataForCitiesOperation.swift in Sources */,
 				B49321C822EC4E130029E158 /* AppDelegate.swift in Sources */,
 				B49321FA22EC59000029E158 /* PWAPIService.swift in Sources */,
 				B49321FC22EC59470029E158 /* PWSession.swift in Sources */,
@@ -468,6 +515,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B49321DD22EC4E130029E158 /* PocketWorksWeatherTests.swift in Sources */,
+				B493221322EC89F10029E158 /* PWAPIServiceSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -624,7 +672,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SCM77QT7P;
-				INFOPLIST_FILE = PocketWorksWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/PocketWorksWeather/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -643,7 +691,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SCM77QT7P;
-				INFOPLIST_FILE = PocketWorksWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/PocketWorksWeather/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -767,7 +815,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SCM77QT7P;
-				INFOPLIST_FILE = PocketWorksWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/PocketWorksWeather/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -863,7 +911,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4SCM77QT7P;
-				INFOPLIST_FILE = PocketWorksWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/PocketWorksWeather/SupportingFiles/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

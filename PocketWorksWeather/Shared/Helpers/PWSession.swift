@@ -11,12 +11,7 @@ import KiNetworking
 
 class PWSession {
   static let shared = PWSession()
-
   private init() { }
 
-  let apiService: APIService? = {
-    let config = APIServiceConfig(base: PWEnvironment.current.apiBaseURL,
-                                  commonHeaders: [:])
-    return APIService(config, delegate: nil)
-  }()
+  let apiService: PWAPIService = PWAPIService()
 }
