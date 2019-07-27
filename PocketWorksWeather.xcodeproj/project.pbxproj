@@ -26,6 +26,9 @@
 		B493220E22EC85A70029E158 /* PWUserKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220D22EC85A70029E158 /* PWUserKey.swift */; };
 		B493221022EC86DB0029E158 /* CityWeatherListResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493220F22EC86DB0029E158 /* CityWeatherListResponse.swift */; };
 		B493221322EC89F10029E158 /* PWAPIServiceSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493221222EC89F10029E158 /* PWAPIServiceSpec.swift */; };
+		B493221522ECAB660029E158 /* cityList.json in Resources */ = {isa = PBXBuildFile; fileRef = B493221422ECAB660029E158 /* cityList.json */; };
+		B493221722ECABD60029E158 /* PWCity.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493221622ECABD60029E158 /* PWCity.swift */; };
+		B493221D22ECB1130029E158 /* PWSessionSpec.swift in Sources */ = {isa = PBXBuildFile; fileRef = B493221C22ECB1130029E158 /* PWSessionSpec.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +73,9 @@
 		B493220D22EC85A70029E158 /* PWUserKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWUserKey.swift; sourceTree = "<group>"; };
 		B493220F22EC86DB0029E158 /* CityWeatherListResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherListResponse.swift; sourceTree = "<group>"; };
 		B493221222EC89F10029E158 /* PWAPIServiceSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWAPIServiceSpec.swift; sourceTree = "<group>"; };
+		B493221422ECAB660029E158 /* cityList.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = cityList.json; sourceTree = "<group>"; };
+		B493221622ECABD60029E158 /* PWCity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWCity.swift; sourceTree = "<group>"; };
+		B493221C22ECB1130029E158 /* PWSessionSpec.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWSessionSpec.swift; sourceTree = "<group>"; };
 		B96B88ECF7F3E29E8E0FD15E /* Pods-PocketWorksWeatherTests.release (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeatherTests.release (prod).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeatherTests/Pods-PocketWorksWeatherTests.release (prod).xcconfig"; sourceTree = "<group>"; };
 		D8AA04E593D5FC8B9145D10C /* Pods-PocketWorksWeatherTests.debug (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeatherTests.debug (prod).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeatherTests/Pods-PocketWorksWeatherTests.debug (prod).xcconfig"; sourceTree = "<group>"; };
 		DF5AFA3256F51B1F8038CD2C /* Pods-PocketWorksWeather.release (dev).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeather.release (dev).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeather/Pods-PocketWorksWeather.release (dev).xcconfig"; sourceTree = "<group>"; };
@@ -143,6 +149,7 @@
 		B49321DB22EC4E130029E158 /* PocketWorksWeatherTests */ = {
 			isa = PBXGroup;
 			children = (
+				B493221B22ECB1050029E158 /* Helpers */,
 				B493221122EC89DE0029E158 /* Services */,
 				B49321DC22EC4E130029E158 /* PocketWorksWeatherTests.swift */,
 				B49321DE22EC4E130029E158 /* Info.plist */,
@@ -170,6 +177,7 @@
 		B49321E922EC50D70029E158 /* SupportingFiles */ = {
 			isa = PBXGroup;
 			children = (
+				B493221422ECAB660029E158 /* cityList.json */,
 				B49321D322EC4E130029E158 /* Info.plist */,
 			);
 			path = SupportingFiles;
@@ -232,6 +240,7 @@
 			children = (
 				B493220122EC5B7C0029E158 /* APIReponses */,
 				B493220B22EC85410029E158 /* PWUnit.swift */,
+				B493221622ECABD60029E158 /* PWCity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -268,6 +277,14 @@
 				B493221222EC89F10029E158 /* PWAPIServiceSpec.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		B493221B22ECB1050029E158 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				B493221C22ECB1130029E158 /* PWSessionSpec.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		CEEF9C29809C98CC28AE78D3 /* Pods */ = {
@@ -375,6 +392,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B49321D222EC4E130029E158 /* LaunchScreen.storyboard in Resources */,
+				B493221522ECAB660029E158 /* cityList.json in Resources */,
 				B49321CF22EC4E130029E158 /* Assets.xcassets in Resources */,
 				B49321CD22EC4E130029E158 /* Main.storyboard in Resources */,
 			);
@@ -496,6 +514,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B493221022EC86DB0029E158 /* CityWeatherListResponse.swift in Sources */,
+				B493221722ECABD60029E158 /* PWCity.swift in Sources */,
 				B493220C22EC85410029E158 /* PWUnit.swift in Sources */,
 				B493220322EC5B9F0029E158 /* CityWeatherResponse.swift in Sources */,
 				B493220E22EC85A70029E158 /* PWUserKey.swift in Sources */,
@@ -516,6 +535,7 @@
 			files = (
 				B49321DD22EC4E130029E158 /* PocketWorksWeatherTests.swift in Sources */,
 				B493221322EC89F10029E158 /* PWAPIServiceSpec.swift in Sources */,
+				B493221D22ECB1130029E158 /* PWSessionSpec.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

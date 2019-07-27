@@ -14,4 +14,16 @@ class PWSession {
   private init() { }
 
   let apiService: PWAPIService = PWAPIService()
+  let cityList: [PWCity] = {
+    let decoder = JSONDecoder()
+    guard
+      let url = Bundle.main.url(forResource: "cityList", withExtension: "json"),
+      let data = try? Data(contentsOf: url),
+      let list = try? decoder.decode([PWCity].self, from: data)
+    else {
+      return []
+    }
+
+    return list
+  }()
 }
