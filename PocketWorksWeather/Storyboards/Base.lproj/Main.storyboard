@@ -10,20 +10,134 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--City Search View Controller-->
         <scene sceneID="BsP-IE-8DM">
             <objects>
-                <viewController id="M3K-2g-neT" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CitySearchViewController" id="M3K-2g-neT" customClass="CitySearchViewController" customModule="PocketWorksWeather" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4HQ-cH-tWY">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgMain" translatesAutoresizingMaskIntoConstraints="NO" id="MsG-oV-gSO">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </imageView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="owb-gc-VVz">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="czJ-he-M40">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="dark"/>
+                            </visualEffectView>
+                            <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZLG-qQ-gYu">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="148"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="5Oj-YW-5hK">
+                                        <rect key="frame" x="0.0" y="44" width="414" height="104"/>
+                                        <subviews>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mX-ui-dhv">
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                                <subviews>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter city name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBE-nj-SBM">
+                                                        <rect key="frame" x="163" y="15" width="88.5" height="14.5"/>
+                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleCaption1"/>
+                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <nil key="highlightedColor"/>
+                                                    </label>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="QBE-nj-SBM" firstAttribute="centerY" secondItem="8mX-ui-dhv" secondAttribute="centerY" id="Htk-aC-1Lf"/>
+                                                    <constraint firstAttribute="height" constant="44" id="eBq-64-Spk"/>
+                                                    <constraint firstItem="QBE-nj-SBM" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="8mX-ui-dhv" secondAttribute="leading" constant="16" id="hYt-Gz-pVJ"/>
+                                                    <constraint firstItem="QBE-nj-SBM" firstAttribute="centerX" secondItem="8mX-ui-dhv" secondAttribute="centerX" id="nDA-zX-pOY"/>
+                                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="QBE-nj-SBM" secondAttribute="trailing" constant="16" id="vJj-r8-lfc"/>
+                                                </constraints>
+                                            </view>
+                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="h1O-YM-V44">
+                                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                                <subviews>
+                                                    <searchBar contentMode="redraw" searchBarStyle="minimal" translatesAutoresizingMaskIntoConstraints="NO" id="oFM-fJ-K27">
+                                                        <rect key="frame" x="16" y="0.0" width="382" height="60"/>
+                                                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                        <userDefinedRuntimeAttributes>
+                                                            <userDefinedRuntimeAttribute type="color" keyPath="searchField.textColor">
+                                                                <color key="value" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                            </userDefinedRuntimeAttribute>
+                                                        </userDefinedRuntimeAttributes>
+                                                    </searchBar>
+                                                </subviews>
+                                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <constraints>
+                                                    <constraint firstItem="oFM-fJ-K27" firstAttribute="leading" secondItem="h1O-YM-V44" secondAttribute="leading" constant="16" id="9BK-Es-V4q"/>
+                                                    <constraint firstAttribute="height" constant="60" id="WaU-y8-jVS"/>
+                                                    <constraint firstItem="oFM-fJ-K27" firstAttribute="top" secondItem="h1O-YM-V44" secondAttribute="top" id="YNn-eL-RJD"/>
+                                                    <constraint firstAttribute="trailing" secondItem="oFM-fJ-K27" secondAttribute="trailing" constant="16" id="eBw-yl-RXL"/>
+                                                    <constraint firstAttribute="bottom" secondItem="oFM-fJ-K27" secondAttribute="bottom" id="yTh-1W-uL5"/>
+                                                </constraints>
+                                            </view>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstItem="8mX-ui-dhv" firstAttribute="leading" secondItem="5Oj-YW-5hK" secondAttribute="leading" id="GMa-Wy-H4U"/>
+                                            <constraint firstAttribute="trailing" secondItem="h1O-YM-V44" secondAttribute="trailing" id="Hmb-An-5w8"/>
+                                            <constraint firstAttribute="trailing" secondItem="8mX-ui-dhv" secondAttribute="trailing" id="TdK-qq-0lr"/>
+                                            <constraint firstItem="h1O-YM-V44" firstAttribute="leading" secondItem="5Oj-YW-5hK" secondAttribute="leading" id="lSf-U2-KyX"/>
+                                        </constraints>
+                                    </stackView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.5" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="5Oj-YW-5hK" secondAttribute="bottom" id="J66-gd-UlR"/>
+                                    <constraint firstItem="5Oj-YW-5hK" firstAttribute="leading" secondItem="ZLG-qQ-gYu" secondAttribute="leading" id="piQ-6X-rAG"/>
+                                    <constraint firstAttribute="trailing" secondItem="5Oj-YW-5hK" secondAttribute="trailing" id="rCW-Xz-bnJ"/>
+                                </constraints>
+                            </view>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="UNG-Gd-mp9">
+                                <rect key="frame" x="0.0" y="148" width="414" height="714"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ATD-so-ZTP" customClass="CitySearchResultCollectionFlowLayout" customModule="PocketWorksWeather" customModuleProvider="target">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="ZLG-qQ-gYu" firstAttribute="leading" secondItem="4HQ-cH-tWY" secondAttribute="leading" id="2HY-zO-Ckh"/>
+                            <constraint firstItem="UNG-Gd-mp9" firstAttribute="leading" secondItem="re1-uE-6cc" secondAttribute="leading" id="8gK-ZH-jBR"/>
+                            <constraint firstItem="UNG-Gd-mp9" firstAttribute="trailing" secondItem="re1-uE-6cc" secondAttribute="trailing" id="HMe-Rd-K1y"/>
+                            <constraint firstAttribute="trailing" secondItem="MsG-oV-gSO" secondAttribute="trailing" id="KFy-Qv-Qc3"/>
+                            <constraint firstItem="MsG-oV-gSO" firstAttribute="top" secondItem="4HQ-cH-tWY" secondAttribute="top" id="PV0-5r-pZi"/>
+                            <constraint firstAttribute="bottom" secondItem="MsG-oV-gSO" secondAttribute="bottom" id="RnC-rg-yKH"/>
+                            <constraint firstItem="owb-gc-VVz" firstAttribute="top" secondItem="MsG-oV-gSO" secondAttribute="top" id="ZjW-mH-9va"/>
+                            <constraint firstItem="re1-uE-6cc" firstAttribute="bottom" secondItem="UNG-Gd-mp9" secondAttribute="bottom" id="aeS-70-3nX"/>
+                            <constraint firstItem="owb-gc-VVz" firstAttribute="leading" secondItem="MsG-oV-gSO" secondAttribute="leading" id="bUf-Ur-dsM"/>
+                            <constraint firstItem="re1-uE-6cc" firstAttribute="top" secondItem="5Oj-YW-5hK" secondAttribute="top" id="c2K-dT-7R6"/>
+                            <constraint firstItem="owb-gc-VVz" firstAttribute="trailing" secondItem="MsG-oV-gSO" secondAttribute="trailing" id="cMy-qX-ccA"/>
+                            <constraint firstItem="owb-gc-VVz" firstAttribute="bottom" secondItem="MsG-oV-gSO" secondAttribute="bottom" id="cNj-uF-Uzo"/>
+                            <constraint firstItem="ZLG-qQ-gYu" firstAttribute="top" secondItem="4HQ-cH-tWY" secondAttribute="top" id="huA-QI-GRA"/>
+                            <constraint firstItem="UNG-Gd-mp9" firstAttribute="top" secondItem="ZLG-qQ-gYu" secondAttribute="bottom" id="sZv-Th-pMh"/>
+                            <constraint firstAttribute="trailing" secondItem="ZLG-qQ-gYu" secondAttribute="trailing" id="wcZ-oY-yfV"/>
+                            <constraint firstItem="MsG-oV-gSO" firstAttribute="leading" secondItem="4HQ-cH-tWY" secondAttribute="leading" id="ysD-mU-MCM"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="re1-uE-6cc"/>
                     </view>
+                    <connections>
+                        <outlet property="resultCollectionView" destination="UNG-Gd-mp9" id="rLF-Gt-VYe"/>
+                        <outlet property="searchBar" destination="oFM-fJ-K27" id="NE5-X6-WtY"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vgt-gU-77g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="301" y="-210"/>
+            <point key="canvasLocation" x="298.55072463768118" y="-210.26785714285714"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="bgMain" width="1821" height="2732"/>
+    </resources>
 </document>

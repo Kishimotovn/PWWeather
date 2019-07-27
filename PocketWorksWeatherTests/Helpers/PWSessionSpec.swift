@@ -12,12 +12,12 @@ import Nimble
 
 class PWSessionSpec: QuickSpec {
   override func spec() {
-    var sut: PWSession = PWSession.shared
+    let sut: PWSession = PWSession.shared
 
     describe("PocketWorksWeather Session") {
-      context("should initialize with cities list filled") {
-        it("city list should be included with the bundle") {
-          expect(sut.cityList).toNot(beEmpty())
+      context("should initialize with cities list cached") {
+        it("should have cached city list ready") {
+          expect(sut.cachedCityList).toEventuallyNot(beEmpty(), timeout: 5.0)
         }
       }
     }
