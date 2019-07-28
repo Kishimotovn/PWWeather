@@ -10,6 +10,7 @@ import Foundation
 
 enum PWUserKey: String {
   case unitType
+  case cityIdList
 
   func value<T>() -> T? {
     return UserDefaults.standard.value(forKey: self.rawValue) as? T

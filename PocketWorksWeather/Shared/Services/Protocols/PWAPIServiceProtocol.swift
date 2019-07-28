@@ -11,4 +11,5 @@ import Promises
 
 protocol PWAPIServiceProtocol {
   func getCityWeather(for cityIds: [String]) -> Promise<[CityWeatherResponse]>
+  func getCityWeather(for cityId: String) -> Promise<CityWeatherResponse>
 }

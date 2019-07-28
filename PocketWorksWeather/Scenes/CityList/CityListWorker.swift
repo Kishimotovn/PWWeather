@@ -11,6 +11,36 @@
 //
 
 import UIKit
+import Promises
 
 class CityListWorker {
+  var apiService: PWAPIService
+  var cityListProvider: CityListProvider
+
+  init(apiService: PWAPIService, cityListProvider: CityListProvider) {
+    self.apiService = apiService
+    self.cityListProvider = cityListProvider
+  }
+
+  func getWeatherData(for city: PWCity) -> Promise<CityWeatherResponse> {
+    return self.apiService.getCityWeather(for: "\(city.id)")
+  }
+
+  func getWeatherData(for cityIds: [Int]) -> Promise<[CityWeatherResponse]> {
+    guard !cityIds.isEmpty else {
+      return Promise([])
+    }
+    return self.apiService.getCityWeather(for: cityIds.map({ return "\($0)" }))
+  }
+
+  func getCities(for cityIds: [Int]) -> Promise<[PWCity]> {
+    guard !cityIds.isEmpty else {
+      return Promise([])
+    }
+    return self.cityListProvider
+      .fetchCityList()
+      .then(on: DispatchQueue.global(qos: .userInitiated)) { list in
+      return list.filter({ return cityIds.contains($0.id) })
+    }
+  }
 }

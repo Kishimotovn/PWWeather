@@ -10,13 +10,13 @@ import UIKit
 
 class CityListItemCell: UITableViewCell, ConfigurableCell {
   struct ViewModel: CityListCellVM {
-    var localTime: String
+    var localTime: SystemDateWithOffsetLabel.ViewModel
     var cityName: String
     var temperature: String
   }
 
   // MARK: - IBOutlets:
-  @IBOutlet weak var localTimeLabel: UILabel!
+  @IBOutlet weak var localTimeLabel: SystemDateWithOffsetLabel!
   @IBOutlet weak var cityNameLabel: UILabel!
   @IBOutlet weak var temperatureLabel: UILabel!
 
@@ -39,7 +39,7 @@ class CityListItemCell: UITableViewCell, ConfigurableCell {
   }
 
   private func updateUI() {
-    self.localTimeLabel.text = self.viewModel.localTime
+    self.localTimeLabel.viewModel = self.viewModel.localTime
     self.cityNameLabel.text = self.viewModel.cityName
     self.temperatureLabel.text = self.viewModel.temperature
   }

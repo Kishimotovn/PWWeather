@@ -11,10 +11,13 @@
 //
 
 import UIKit
+import Promises
 
 protocol CityListBusinessLogic {
   func getCityList(_ request: CityList.GetCityList.Request)
   func toggleUnitSystem(_ request: CityList.ToggleUnitSystem.Request)
+  func registerNewCity(_ request: CityList.RegisterNewCity.Request)
+  func removeCity(_ request: CityList.RemoveCity.Request)
 }
 
 protocol CityListDataStore {
@@ -23,17 +26,62 @@ protocol CityListDataStore {
 class CityListInteractor: CityListBusinessLogic, CityListDataStore {
   // MARK: - Model:
   var presenter: CityListPresentationLogic?
-  var worker: CityListWorker?
+  var worker: CityListWorker = CityListWorker(apiService: PWSession.shared.apiService,
+                                              cityListProvider: PWSession.shared)
+  var currentCities: [PWCity] = []
+  var currentWeatherData: [CityWeatherResponse] = []
 
   // MARK: - Public Funcs (Use cases):
   func getCityList(_ request: CityList.GetCityList.Request) {
-    let response = CityList.GetCityList.Response(unitSystem: PWSession.shared.unitSystem)
-    self.presenter?.presentGetCityList(response)
+    let cityIds = PWSession.shared.cityIdList
+
+    all(self.worker.getWeatherData(for: cityIds), self.worker.getCities(for: cityIds))
+      .then { weatherData, cities in
+        self.currentCities = cities
+        self.currentWeatherData = weatherData
+
+        let response = CityList.GetCityList.Response(
+          weatherData: weatherData,
+          unitSystem: PWSession.shared.unitSystem)
+        self.presenter?.presentGetCityList(response)
+    }.catch { error in
+        print(error.localizedDescription)
+    }
   }
 
   func toggleUnitSystem(_ request: CityList.ToggleUnitSystem.Request) {
     PWSession.shared.unitSystem = request.newUnitSystem
-    let response = CityList.GetCityList.Response(unitSystem: PWSession.shared.unitSystem)
+    let response = CityList.GetCityList.Response(
+      weatherData: self.currentWeatherData,
+      unitSystem: PWSession.shared.unitSystem)
     self.presenter?.presentGetCityList(response)
+  }
+
+  func registerNewCity(_ request: CityList.RegisterNewCity.Request) {
+    let requestedCity = request.city
+    guard !self.currentCities.contains(requestedCity) else {
+      return
+    }
+
+    self.worker.getWeatherData(for: requestedCity).then { response in
+      PWSession.shared.cityIdList.append(requestedCity.id)
+      self.currentCities.append(requestedCity)
+      self.currentWeatherData.append(response)
+
+      let response = CityList.RegisterNewCity.Response(weatherData: response)
+      self.presenter?.presentRegisterNewCity(response)
+    }
+  }
+
+  func removeCity(_ request: CityList.RemoveCity.Request) {
+    let selectedIndex = request.selectedIndex
+    guard selectedIndex >= 0, self.currentCities.count > selectedIndex else {
+      return
+    }
+    let cityId = self.currentCities[selectedIndex].id
+
+    self.currentCities.remove(at: selectedIndex)
+    self.currentWeatherData.remove(at: selectedIndex)
+    PWSession.shared.cityIdList.removeAll(where: { return $0 == cityId })
   }
 }

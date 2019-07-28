@@ -14,3 +14,9 @@ struct PWCity: Decodable {
   var country: String
   var coord: CityCoordinatesResponse
 }
+
+extension PWCity: Equatable {
+  public static func ==(lhs: PWCity, rhs: PWCity) -> Bool {
+    return lhs.id == rhs.id
+  }
+}

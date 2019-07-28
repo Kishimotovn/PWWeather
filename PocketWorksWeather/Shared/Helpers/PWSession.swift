@@ -26,6 +26,16 @@ class PWSession {
       PWUserKey.unitType.set(newValue.rawValue)
     }
   }
+
+  var cityIdList: [Int] {
+    get {
+      let idListString: String = PWUserKey.cityIdList.value() ?? ""
+      return idListString.components(separatedBy: ",").compactMap({ return Int($0) })
+    }
+    set {
+      PWUserKey.cityIdList.set(newValue.map({ return "\($0)" }).joined(separator: ","))
+    }
+  }
 }
 
 extension PWSession: CityListProvider {

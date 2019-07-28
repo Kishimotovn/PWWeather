@@ -19,6 +19,7 @@ enum CityList {
   enum GetCityList {
     struct Request { }
     struct Response {
+      var weatherData: [CityWeatherResponse]
       var unitSystem: PWUnitSystem
     }
     struct ViewModel {
@@ -36,9 +37,17 @@ enum CityList {
     struct Request {
       var city: PWCity
     }
-    struct Response { }
+    struct Response {
+      var weatherData: CityWeatherResponse
+    }
     struct ViewModel {
-      
+      var cellVM: CityListCellVM
+    }
+  }
+
+  enum RemoveCity {
+    struct Request {
+      var selectedIndex: Int
     }
   }
 }

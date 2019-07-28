@@ -14,6 +14,7 @@ import UIKit
 
 protocol CityListPresentationLogic {
   func presentGetCityList(_ response: CityList.GetCityList.Response)
+  func presentRegisterNewCity(_ response: CityList.RegisterNewCity.Response)
 }
 
 class CityListPresenter: CityListPresentationLogic {
@@ -24,6 +25,9 @@ class CityListPresenter: CityListPresentationLogic {
   func presentGetCityList(_ response: CityList.GetCityList.Response) {
     var cellVMs = [CityListCellVM]()
 
+    let itemCells = response.weatherData.map(self.buildItemCell)
+    cellVMs.append(contentsOf: itemCells)
+
     let actionCell = self.buildActionCellVM(with: response.unitSystem)
     cellVMs.append(actionCell)
 
@@ -31,10 +35,34 @@ class CityListPresenter: CityListPresentationLogic {
     self.viewController?.displayGetCityList(viewModel)
   }
 
+  func presentRegisterNewCity(_ response: CityList.RegisterNewCity.Response) {
+    let cellVM = self.buildItemCell(with: response.weatherData)
+    let viewModel = CityList.RegisterNewCity.ViewModel(cellVM: cellVM)
+    self.viewController?.displayRegisterNewCity(viewModel)
+  }
+
   // MARK: - Private Funcs:
   private func buildActionCellVM(with unitSystem: PWUnitSystem) -> CityListActionCell.ViewModel {
     return CityListActionCell.ViewModel(
       metricSystemButtonSelected: unitSystem == .metric,
       imperialSystemButtonSelected: unitSystem == .imperial)
+  }
+
+  private func buildItemCell(with response: CityWeatherResponse) -> CityListItemCell.ViewModel {
+    var localTime = SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
+                                                        timezoneOffset: 0.0)
+    if let timezoneOffset = response.timezone {
+      localTime = SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
+                                                      timezoneOffset: timezoneOffset)
+    }
+    let cityName = response.name ?? ""
+    var temperature = "N/A"
+    if let temp = response.main?.temp {
+      temperature = "\(temp)°"
+    }
+    return CityListItemCell.ViewModel(
+      localTime: localTime,
+      cityName: cityName,
+      temperature: temperature)
   }
 }

@@ -15,6 +15,7 @@ class PWAPIService: PWAPIServiceProtocol {
     let delegate = PWAPIServiceDelegate()
     if let config = APIServiceConfig(base: PWEnvironment.current.apiBaseURL,
                                      commonHeaders: [:]) {
+      config.debugEnabled = .response
       return APIService(config, delegate: delegate)
     }
     fatalError("API Service not configured")
@@ -26,5 +27,10 @@ class PWAPIService: PWAPIServiceProtocol {
       .then { cityListResponse in
       return cityListResponse.list
     }
+  }
+
+  func getCityWeather(for cityId: String) -> Promise<CityWeatherResponse> {
+    return GetWeatherDataForCityOperation(cityId: cityId)
+      .execute(in: self.executor)
   }
 }

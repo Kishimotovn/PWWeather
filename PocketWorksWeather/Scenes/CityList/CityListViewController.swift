@@ -14,6 +14,7 @@ import UIKit
 
 protocol CityListDisplayLogic: class {
   func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel)
+  func displayRegisterNewCity(_ viewModel: CityList.RegisterNewCity.ViewModel)
 }
 
 class CityListViewController: UIViewController, CityListDisplayLogic {
@@ -40,12 +41,19 @@ class CityListViewController: UIViewController, CityListDisplayLogic {
 
   // MARK: - Public Funcs (Use cases):
   func register(newCity: PWCity) {
-    
+    let request = CityList.RegisterNewCity.Request(city: newCity)
+    self.interactor?.registerNewCity(request)
   }
 
   func getCityListOnLaunch() {
     let request = CityList.GetCityList.Request()
     self.interactor?.getCityList(request)
+  }
+
+  func displayRegisterNewCity(_ viewModel: CityList.RegisterNewCity.ViewModel) {
+    self.cityList.insert(viewModel.cellVM, at: 0)
+    let firstIndexPath = IndexPath(item: 0, section: 0)
+    self.cityListTableView.insertRows(at: [firstIndexPath], with: .top)
   }
 
   func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel) {
@@ -125,7 +133,30 @@ extension CityListViewController: UITableViewDataSource {
 }
 
 extension CityListViewController: UITableViewDelegate {
-  
+  func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    let item = self.cityList[indexPath.row]
+
+    switch item {
+    case is CityListItemCell.ViewModel:
+      return .delete
+    default:
+      return .none
+    }
+  }
+
+  func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    if (editingStyle == .delete) {
+      self.cityList.remove(at: indexPath.row)
+      tableView.deleteRows(at: [indexPath], with: .bottom)
+      let request = CityList.RemoveCity.Request(selectedIndex: indexPath.row)
+      self.interactor?.removeCity(request)
+    }
+  }
+
+  func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    let item = self.cityList[indexPath.row]
+    return item is CityListItemCell.ViewModel
+  }
 }
 
 extension CityListViewController: CityListActionCellDelegate {
