@@ -25,6 +25,7 @@ class CitySearchInteractorSpec: QuickSpec {
     var presentUpdateResultsCount = 0
     var presentUpdateResultsResponse: CitySearch.UpdateResults.Response?
     var presentValidatingCityNameResponses = [Bool]()
+    var presentSelectCityCalled = false
 
     func presentUpdateResults(_ response: CitySearch.UpdateResults.Response) {
       self.presentUpdateResultsCount += 1
@@ -34,6 +35,10 @@ class CitySearchInteractorSpec: QuickSpec {
 
     func presentValidatingCityName(_ response: CitySearch.ValidatingCityName.Response) {
       self.presentValidatingCityNameResponses.append(response.isValidating)
+    }
+
+    func presentSelectCity(_ response: CitySearch.SelectCity.Response) {
+      self.presentSelectCityCalled = true
     }
   }
 
@@ -120,6 +125,41 @@ class CitySearchInteractorSpec: QuickSpec {
           expect(presenterSpy.presentUpdateResultsCount).toEventually(be(1), timeout: 10)
           expect(presenterSpy.presentUpdateResultsCount).toEventuallyNot(be(2), timeout: 10)
         }
+      }
+    }
+    
+    context("when selecting a city") {
+      it("should return if selected index is invalid") {
+        let spy = CitySearchPresentationLogicSpy()
+        self.sut.presenter = spy
+        let request = CitySearch.SelectCity.Request(selectedIndex: -1)
+
+        self.sut.selectCity(request)
+
+        expect(spy.presentSelectCityCalled).toEventually(beFalse(), timeout: 3.0)
+      }
+
+      it("should return if selected index is out of bound") {
+        let spy = CitySearchPresentationLogicSpy()
+        self.sut.presenter = spy
+        let request = CitySearch.SelectCity.Request(selectedIndex: 2)
+        self.sut.currentResults = [Seed.hanoi]
+
+        self.sut.selectCity(request)
+        
+        expect(spy.presentSelectCityCalled).toEventually(beFalse(), timeout: 3.0)
+      }
+
+      it("should assign selected city value and ask presenter to present") {
+        let spy = CitySearchPresentationLogicSpy()
+        self.sut.presenter = spy
+        let request = CitySearch.SelectCity.Request(selectedIndex: 0)
+        self.sut.currentResults = [Seed.hanoi]
+
+        self.sut.selectCity(request)
+
+        expect(spy.presentSelectCityCalled).to(beTrue())
+        expect(self.sut.selectedCity?.id).to(equal(Seed.hanoi.id))
       }
     }
   }

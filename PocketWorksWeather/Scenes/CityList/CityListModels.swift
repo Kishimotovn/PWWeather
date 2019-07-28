@@ -1,5 +1,5 @@
 //
-//  CitySearchModels.swift
+//  CityListModels.swift
 //  PocketWorksWeather
 //
 //  Created by Anh Phan Tran on 27/07/2019.
@@ -12,35 +12,33 @@
 
 import UIKit
 
-enum CitySearch {
+protocol CityListCellVM { }
+
+enum CityList {
   // MARK: - Use cases:
-  enum UpdateResults {
-    struct Request {
-      var searchTerm: String
-    }
+  enum GetCityList {
+    struct Request { }
     struct Response {
-      var searchTerm: String
-      var results: [PWCity]
+      var unitSystem: PWUnitSystem
     }
     struct ViewModel {
-      var results: [CitySearchResultCell.ViewModel]
+      var cityList: [CityListCellVM]
     }
   }
 
-  enum ValidatingCityName {
-    struct Response {
-      var isValidating: Bool
-    }
-    struct ViewModel {
-      var isValidating: Bool
+  enum ToggleUnitSystem {
+    struct Request {
+      var newUnitSystem: PWUnitSystem
     }
   }
 
-  enum SelectCity {
+  enum RegisterNewCity {
     struct Request {
-      var selectedIndex: Int
+      var city: PWCity
     }
     struct Response { }
-    struct ViewModel { }
+    struct ViewModel {
+      
+    }
   }
 }

@@ -18,6 +18,14 @@ class PWSession {
 
   let apiService: PWAPIService = PWAPIService()
   var cachedCityList: [PWCity] = []
+  var unitSystem: PWUnitSystem {
+    get {
+      return PWUnitSystem(rawValue: PWUserKey.unitType.value() ?? "") ?? .metric
+    }
+    set {
+      PWUserKey.unitType.set(newValue.rawValue)
+    }
+  }
 }
 
 extension PWSession: CityListProvider {

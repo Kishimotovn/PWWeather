@@ -21,11 +21,24 @@ class CitySearchViewControllerSpec: QuickSpec {
 
   // MARK: - Test doubles:
   class CitySearchBusinessLogicSpy: CitySearchBusinessLogic {
+    var selectCityCalled = false
+    var selectCityRequest: CitySearch.SelectCity.Request?
     var updateResultsCalled = false
     var updateResultsRequest: CitySearch.UpdateResults.Request?
     func updateResults(_ request: CitySearch.UpdateResults.Request) {
       self.updateResultsCalled = true
       self.updateResultsRequest = request
+    }
+    func selectCity(_ request: CitySearch.SelectCity.Request) {
+      self.selectCityCalled = true
+      self.selectCityRequest = request
+    }
+  }
+  
+  class CitySearchRouterSpy: CitySearchRouter {
+    var routeBackToCityListCalled = false
+    override func routeBackToCityListWithSelectedCity() {
+      self.routeBackToCityListCalled = true
     }
   }
 
@@ -161,6 +174,38 @@ class CitySearchViewControllerSpec: QuickSpec {
           self.sut.displayValidatingCityName(viewModel)
 
           expect(self.sut.resultCollectionView.backgroundView).to(beNil())
+        }
+      }
+
+      context("when a city is selected from table view") {
+        it("should ask interactor to select city") {
+          loadView()
+          let spy = CitySearchBusinessLogicSpy()
+          self.sut.interactor = spy
+          let cityNameString = NSAttributedString(string: "someString").applyForegroundColor(.red)
+          let result = CitySearchResultCell.ViewModel(cityName: cityNameString)
+          let viewModel = CitySearch.UpdateResults.ViewModel(results: [result])
+          self.sut.displayUpdateResults(viewModel)
+
+          let selectedIndexPath = IndexPath(row: 0, section: 0)
+          self.sut.collectionView(self.sut.resultCollectionView, didSelectItemAt: selectedIndexPath)
+
+          expect(spy.selectCityCalled).to(beTrue())
+          expect(spy.selectCityRequest).toNot(beNil())
+          expect(spy.selectCityRequest?.selectedIndex).to(equal(selectedIndexPath.row))
+        }
+      }
+
+      context("when displaying a selected city") {
+        it("should ask router to route back to city list") {
+          loadView()
+          let spy = CitySearchRouterSpy()
+          self.sut.router = spy
+          let viewModel = CitySearch.SelectCity.ViewModel()
+
+          self.sut.displaySelectCity(viewModel)
+
+          expect(spy.routeBackToCityListCalled).to(beTrue())
         }
       }
     }

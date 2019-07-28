@@ -23,6 +23,6 @@ class PWOpenWeatherRequest: KiNetworking.Request {
     if self.parameters == nil {
       self.parameters = Parameters()
     }
-    self.parameters?["unit"] = PWUnit.current
+    self.parameters?["unit"] = PWSession.shared.unitSystem.rawValue
   }
 }

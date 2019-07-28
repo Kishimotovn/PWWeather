@@ -7,6 +7,7 @@ target 'PocketWorksWeather' do
 
   # Pods for PocketWorksWeather
   pod 'KiNetworking'
+  pod 'IQKeyboardManagerSwift'
 
   target 'PocketWorksWeatherTests' do
     inherit! :search_paths

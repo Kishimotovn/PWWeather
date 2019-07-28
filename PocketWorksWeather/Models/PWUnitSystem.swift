@@ -8,11 +8,7 @@
 
 import Foundation
 
-enum PWUnit: String {
-  static var current: PWUnit {
-    return PWUnit(rawValue: PWUserKey.unitType.value() ?? "") ?? .metric
-  }
-
+enum PWUnitSystem: String {
   case metric
   case imperial
 }

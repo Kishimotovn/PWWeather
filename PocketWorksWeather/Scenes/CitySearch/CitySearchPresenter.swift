@@ -15,6 +15,7 @@ import UIKit
 protocol CitySearchPresentationLogic {
   func presentUpdateResults(_ response: CitySearch.UpdateResults.Response)
   func presentValidatingCityName(_ response: CitySearch.ValidatingCityName.Response)
+  func presentSelectCity(_ response: CitySearch.SelectCity.Response)
 }
 
 class CitySearchPresenter: CitySearchPresentationLogic {
@@ -34,6 +35,11 @@ class CitySearchPresenter: CitySearchPresentationLogic {
   func presentValidatingCityName(_ response: CitySearch.ValidatingCityName.Response) {
     let viewModel = CitySearch.ValidatingCityName.ViewModel(isValidating: response.isValidating)
     self.viewController?.displayValidatingCityName(viewModel)
+  }
+
+  func presentSelectCity(_ response: CitySearch.SelectCity.Response) {
+    let viewModel = CitySearch.SelectCity.ViewModel()
+    self.viewController?.displaySelectCity(viewModel)
   }
 
   // MARK: - Private Funcs:

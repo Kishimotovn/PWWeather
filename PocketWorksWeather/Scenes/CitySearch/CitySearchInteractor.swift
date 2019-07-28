@@ -15,9 +15,11 @@ import Promises
 
 protocol CitySearchBusinessLogic {
   func updateResults(_ request: CitySearch.UpdateResults.Request)
+  func selectCity(_ request: CitySearch.SelectCity.Request)
 }
 
 protocol CitySearchDataStore {
+  var selectedCity: PWCity? { get }
 }
 
 class CitySearchInteractor: CitySearchBusinessLogic, CitySearchDataStore
@@ -26,6 +28,8 @@ class CitySearchInteractor: CitySearchBusinessLogic, CitySearchDataStore
   var presenter: CitySearchPresentationLogic?
   var worker: CitySearchWorker = CitySearchWorker(cityListProvider: PWSession.shared)
   var currentSearchTerm = ""
+  var currentResults: [PWCity] = []
+  var selectedCity: PWCity?
 
   // MARK: - Public Funcs (Use cases):
   func updateResults(_ request: CitySearch.UpdateResults.Request) {
@@ -39,10 +43,23 @@ class CitySearchInteractor: CitySearchBusinessLogic, CitySearchDataStore
         self.toggleValidating(to: false)
       }
       .then(on: DispatchQueue.main) { results in
+        self.currentResults = results
         let response = CitySearch.UpdateResults.Response(searchTerm: searchTerm,
                                                          results: results)
         self.presenter?.presentUpdateResults(response)
       }
+  }
+
+  func selectCity(_ request: CitySearch.SelectCity.Request) {
+    let selectedIndex = request.selectedIndex
+
+    guard selectedIndex >= 0, self.currentResults.count > selectedIndex else {
+      return
+    }
+
+    self.selectedCity = self.currentResults[selectedIndex]
+    let response = CitySearch.SelectCity.Response()
+    self.presenter?.presentSelectCity(response)
   }
 
   // MARK: - Private Funcs:

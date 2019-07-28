@@ -23,6 +23,7 @@ class CitySearchPresenterSpec: QuickSpec {
     var displayUpdateResultsCalled = false
     var displayUpdateResultsVM: CitySearch.UpdateResults.ViewModel?
     var displayValidatingCityNameCalled = false
+    var displaySelectCityCalled = false
 
     func displayUpdateResults(_ viewModel: CitySearch.UpdateResults.ViewModel) {
       self.displayUpdateResultsCalled = true
@@ -31,6 +32,10 @@ class CitySearchPresenterSpec: QuickSpec {
 
     func displayValidatingCityName(_ viewModel: CitySearch.ValidatingCityName.ViewModel) {
       self.displayValidatingCityNameCalled = true
+    }
+
+    func displaySelectCity(_ viewModel: CitySearch.SelectCity.ViewModel) {
+      self.displaySelectCityCalled = true
     }
   }
 
@@ -56,6 +61,18 @@ class CitySearchPresenterSpec: QuickSpec {
           expect(spy.displayUpdateResultsVM?.results.first?.cityName.string).to(be(Seed.hanoi.name))
           expect(spy.displayUpdateResultsVM?.results.first?.cityName.attribute(.font, at: 0, effectiveRange: nil)).to(be(UIFont.systemFont(ofSize: 18, weight: .bold)))
           expect(spy.displayUpdateResultsVM?.results.first?.cityName.attribute(.font, at: 3, effectiveRange: nil)).to(be(UIFont.systemFont(ofSize: 18)))
+        }
+      }
+      
+      context("when receive a select city response") {
+        it("should ask view controller to display") {
+          let response = CitySearch.SelectCity.Response()
+          let spy = CitySearchDisplayLogicSpy()
+          self.sut.viewController = spy
+
+          self.sut.presentSelectCity(response)
+
+          expect(spy.displaySelectCityCalled).to(beTrue())
         }
       }
     }

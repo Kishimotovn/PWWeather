@@ -1,5 +1,6 @@
 PODS:
   - Alamofire (4.8.2)
+  - IQKeyboardManagerSwift (6.4.0)
   - KiNetworking (1.2.3):
     - Alamofire
     - PromisesSwift
@@ -12,6 +13,7 @@ PODS:
   - SwiftyJSON (5.0.0)
 
 DEPENDENCIES:
+  - IQKeyboardManagerSwift
   - KiNetworking
   - Nimble
   - Quick
@@ -19,6 +21,7 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - IQKeyboardManagerSwift
     - KiNetworking
     - Nimble
     - PromisesObjC
@@ -28,6 +31,7 @@ SPEC REPOS:
 
 SPEC CHECKSUMS:
   Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  IQKeyboardManagerSwift: ed9b04ee0e3067ffba543283462d619f944b05e5
   KiNetworking: 6efd5cc255f02158cb3aef66c30f7b5ed40122f6
   Nimble: 622629381bda1dd5678162f21f1368cec7cbba60
   PromisesObjC: c119f3cd559f50b7ae681fa59dc1acd19173b7e6
@@ -35,6 +39,6 @@ SPEC CHECKSUMS:
   Quick: 4be43f6634acfa727dd106bdf3929ce125ffa79d
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: b7aa3e8b9409d20438ba93b341b2a4920b64f73e
+PODFILE CHECKSUM: 6f03b902699fa95debb35bb3c6a2d670c8ab2a27
 
 COCOAPODS: 1.6.1

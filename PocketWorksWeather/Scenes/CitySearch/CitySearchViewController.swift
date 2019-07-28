@@ -15,9 +15,14 @@ import UIKit
 protocol CitySearchDisplayLogic: class {
   func displayUpdateResults(_ viewModel: CitySearch.UpdateResults.ViewModel)
   func displayValidatingCityName(_ viewModel: CitySearch.ValidatingCityName.ViewModel)
+  func displaySelectCity(_ viewModel: CitySearch.SelectCity.ViewModel)
 }
 
-class CitySearchViewController: UIViewController, CitySearchDisplayLogic {
+class CitySearchViewController: UIViewController, CitySearchDisplayLogic, StoryboardBased {
+  static var storyboardName: String {
+    return "Main"
+  }
+
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
   }
@@ -69,6 +74,10 @@ class CitySearchViewController: UIViewController, CitySearchDisplayLogic {
     }
   }
 
+  func displaySelectCity(_ viewModel: CitySearch.SelectCity.ViewModel) {
+    self.router?.routeBackToCityListWithSelectedCity()
+  }
+
   // MARK: - Private Funcs:
   private func setupUIOnLaunch() {
     self.setupResultCollectionView()
@@ -116,6 +125,11 @@ extension CitySearchViewController: UISearchBarDelegate {
     let request = CitySearch.UpdateResults.Request(searchTerm: searchText)
     self.interactor?.updateResults(request)
   }
+
+  func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+    searchBar.endEditing(false)
+    self.dismiss(animated: true, completion: nil)
+  }
 }
 
 extension CitySearchViewController: UICollectionViewDataSource {
@@ -140,5 +154,9 @@ extension CitySearchViewController: UICollectionViewDataSource {
 }
 
 extension CitySearchViewController: UICollectionViewDelegate {
-  
+  func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    let selectedIndex = indexPath.row
+    let request = CitySearch.SelectCity.Request(selectedIndex: selectedIndex)
+    self.interactor?.selectCity(request)
+  }
 }
