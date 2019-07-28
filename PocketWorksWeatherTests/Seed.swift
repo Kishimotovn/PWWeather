@@ -23,7 +23,7 @@ struct Seed {
     visibility: 10000,
     wind: Seed.wind,
     clouds: Seed.clouds,
-    dt: 1564326552,
+    dt: Date(timeIntervalSince1970: 1564326552),
     sys: Seed.sys,
     id: 1581130,
     name: "Ha Noi")

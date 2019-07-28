@@ -21,6 +21,8 @@ class CityListViewControllerSpec: QuickSpec {
 
   // MARK: - Test doubles:
   class CityListBusinessLogicSpy: CityListBusinessLogic {
+    var selectCityCalled = false
+    var selectCityRequest: CityList.SelectCity.Request?
     var getCityListCalled = false
     var toggleUnitSystemCalled = false
     var registerCityCalled = false
@@ -42,6 +44,11 @@ class CityListViewControllerSpec: QuickSpec {
     
     func removeCity(_ request: CityList.RemoveCity.Request) {
       self.removeCityCalled = true
+    }
+
+    func selectCity(_ request: CityList.SelectCity.Request) {
+      self.selectCityCalled = true
+      self.selectCityRequest = request
     }
   }
 
@@ -100,10 +107,19 @@ class CityListViewControllerSpec: QuickSpec {
         it("should have correct data for table view") {
           loadView()
           var cityListCellVMs = [CityListCellVM]()
+          let windString = NSMutableAttributedString()
+          let windDirectionString = NSAttributedString(string: "N ")
+            .applyForegroundColor(.white)
+            .applyFont(UIFont.systemFont(ofSize: 30, weight: .medium))
+          windString.append(windDirectionString)
+          let windSpeedString = NSAttributedString(string: "4.6 m/s")
+            .applyFont(UIFont.systemFont(ofSize: 40, weight: .thin))
+            .applyForegroundColor(.white)
+          windString.append(windSpeedString)
           let itemCell = CityListItemCell.ViewModel(localTime: SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
                                                                                                    timezoneOffset: 0),
                                                     cityName: "Ha Noi",
-                                                    temperature: "30")
+                                                    windDirectionString: windString)
           cityListCellVMs.append(itemCell)
           let actionCell = CityListActionCell.ViewModel(metricSystemButtonSelected: true, imperialSystemButtonSelected: false)
           cityListCellVMs.append(actionCell)
@@ -164,10 +180,19 @@ class CityListViewControllerSpec: QuickSpec {
           self.sut.interactor = spy
           loadView()
           var cityListCellVMs = [CityListCellVM]()
+          let windString = NSMutableAttributedString()
+          let windDirectionString = NSAttributedString(string: "N ")
+            .applyForegroundColor(.white)
+            .applyFont(UIFont.systemFont(ofSize: 30, weight: .medium))
+          windString.append(windDirectionString)
+          let windSpeedString = NSAttributedString(string: "4.6 m/s")
+            .applyFont(UIFont.systemFont(ofSize: 40, weight: .thin))
+            .applyForegroundColor(.white)
+          windString.append(windSpeedString)
           let itemCell = CityListItemCell.ViewModel(localTime: SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
                                                                                                    timezoneOffset: 0),
                                                     cityName: "Ha Noi",
-                                                    temperature: "30")
+                                                    windDirectionString: windString)
           cityListCellVMs.append(itemCell)
           let actionCell = CityListActionCell.ViewModel(metricSystemButtonSelected: true, imperialSystemButtonSelected: false)
           cityListCellVMs.append(actionCell)

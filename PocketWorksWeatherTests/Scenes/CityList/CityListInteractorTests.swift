@@ -27,6 +27,8 @@ class CityListInteractorSpec: QuickSpec {
     var presentRegisterNewCityResponse: CityList.RegisterNewCity.Response?
     var presentReloadWeatherDataCalled = false
     var presentReloadWeatherDataResponses: [Bool] = []
+    var presentSelectCityCalled = false
+    var presentShowErrorCalled = false
     func presentGetCityList(_ response: CityList.GetCityList.Response) {
       self.presentGetCityCalled = true
       self.presentGetCityResponse = response
@@ -38,6 +40,12 @@ class CityListInteractorSpec: QuickSpec {
     func presentReloadWeatherData(_ response: CityList.ReloadWeatherData.Response) {
       self.presentReloadWeatherDataCalled = true
       self.presentReloadWeatherDataResponses.append(response.isReloading)
+    }
+    func presentSelectCity(_ response: CityList.SelectCity.Response) {
+      self.presentSelectCityCalled = true
+    }
+    func presentShowError(_ response: CityList.ShowError.Response) {
+      self.presentShowErrorCalled = true
     }
   }
 
@@ -66,6 +74,50 @@ class CityListInteractorSpec: QuickSpec {
     describe("CityListInteractor") {
       beforeEach {
         self.sut = CityListInteractor()
+      }
+  
+      context("when select a city") {
+        it("should not proceed if selected index is invalid") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+          self.sut.currentWeatherData = [Seed.hanoiWeatherData]
+          
+          let request = CityList.SelectCity.Request(selectedIndex: -1)
+          self.sut.selectCity(request)
+
+          expect(spy.presentSelectCityCalled).toEventually(beFalse())
+          expect(self.sut.selectedCity).toEventually(beNil())
+          expect(self.sut.selectedWeatherData).toEventually(beNil())
+        }
+        
+        it("should not proceed if selected index is out of bounds") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+          self.sut.currentWeatherData = [Seed.hanoiWeatherData]
+          
+          let request = CityList.SelectCity.Request(selectedIndex: 2)
+          self.sut.selectCity(request)
+          
+          expect(spy.presentSelectCityCalled).toEventually(beFalse())
+          expect(self.sut.selectedCity).toEventually(beNil())
+          expect(self.sut.selectedWeatherData).toEventually(beNil())
+        }
+
+        it("should ask presenter to present when selected index is valid") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+          self.sut.currentWeatherData = [Seed.hanoiWeatherData]
+          
+          let request = CityList.SelectCity.Request(selectedIndex: 0)
+          self.sut.selectCity(request)
+          
+          expect(spy.presentSelectCityCalled).to(beTrue())
+          expect(self.sut.selectedCity).to(equal(Seed.hanoi))
+          expect(self.sut.selectedWeatherData).to(equal(Seed.hanoiWeatherData))
+        }
       }
 
       context("when get city list") {

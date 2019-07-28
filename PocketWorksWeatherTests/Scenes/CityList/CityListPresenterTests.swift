@@ -26,6 +26,8 @@ class CityListPresenterSpec: QuickSpec {
     var displayRegisterNewCityVM: CityList.RegisterNewCity.ViewModel?
     var displayReloadWeatherDataCalled = false
     var displayReloadWeatherDataVM: CityList.ReloadWeatherData.ViewModel?
+    var displaySelectCityCalled = false
+    var displayShowErrorCalled = false
 
     func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel) {
       self.displayGetCityListCalled = true
@@ -41,6 +43,14 @@ class CityListPresenterSpec: QuickSpec {
       self.displayReloadWeatherDataCalled = true
       self.displayReloadWeatherDataVM = viewModel
     }
+
+    func displaySelectCity(_ viewModel: CityList.SelectCity.ViewModel) {
+      self.displaySelectCityCalled = true
+    }
+
+    func displayShowError(_ viewModel: CityList.ShowError.ViewModel) {
+      self.displayShowErrorCalled = true
+    }
   }
 
   // MARK: - Spec:
@@ -48,6 +58,32 @@ class CityListPresenterSpec: QuickSpec {
     describe("CityListPresenter") {
       beforeEach {
         self.sut = CityListPresenter()
+      }
+
+      context("when show error") {
+        it("should ask view controller to alert the error") {
+          let spy = CityListDisplayLogicSpy()
+          self.sut.viewController = spy
+
+          let error = NSError(domain: "some domain", code: 30, userInfo: nil)
+          let response = CityList.ShowError.Response(error: error as Error)
+
+          self.sut.presentShowError(response)
+
+          expect(spy.displayShowErrorCalled).to(beTrue())
+        }
+      }
+
+      context("when a city is selected") {
+        it("should ask view controller to route") {
+          let spy = CityListDisplayLogicSpy()
+          self.sut.viewController = spy
+
+          let response = CityList.SelectCity.Response()
+          self.sut.presentSelectCity(response)
+  
+          expect(spy.displaySelectCityCalled).to(beTrue())
+        }
       }
 
       context("when present get city list") {
@@ -69,7 +105,16 @@ class CityListPresenterSpec: QuickSpec {
 
           expect(itemCellVM?.cityName).to(equal(Seed.hanoiWeatherData.name))
           expect(itemCellVM?.localTime.timezoneOffset).to(equal(Seed.hanoiWeatherData.sys?.timezone))
-          expect(itemCellVM?.windDirectionString).to(equal("30°"))
+          let windString = NSMutableAttributedString()
+          let windDirectionString = NSAttributedString(string: "ESE ")
+            .applyForegroundColor(.white)
+            .applyFont(UIFont.systemFont(ofSize: 30, weight: .medium))
+          windString.append(windDirectionString)
+          let windSpeedString = NSAttributedString(string: "5 m/s")
+            .applyFont(UIFont.systemFont(ofSize: 40, weight: .thin))
+            .applyForegroundColor(.white)
+          windString.append(windSpeedString)
+          expect(itemCellVM?.windDirectionString).to(equal(windString))
   
           expect(spy.displayGetCityListVM?.cityList[1]).to(beAKindOf(CityListActionCell.ViewModel.self))
 
@@ -96,7 +141,16 @@ class CityListPresenterSpec: QuickSpec {
           
           expect(itemCellVM?.cityName).to(equal(Seed.hanoiWeatherData.name))
           expect(itemCellVM?.localTime.timezoneOffset).to(equal(Seed.hanoiWeatherData.sys?.timezone))
-          expect(itemCellVM?.windDirectionString).to(equal("30°"))
+          let windString = NSMutableAttributedString()
+          let windDirectionString = NSAttributedString(string: "ESE ")
+            .applyForegroundColor(.white)
+            .applyFont(UIFont.systemFont(ofSize: 30, weight: .medium))
+          windString.append(windDirectionString)
+          let windSpeedString = NSAttributedString(string: "5 m/s")
+            .applyFont(UIFont.systemFont(ofSize: 40, weight: .thin))
+            .applyForegroundColor(.white)
+          windString.append(windSpeedString)
+          expect(itemCellVM?.windDirectionString).to(equal(windString))
         }
       }
 
