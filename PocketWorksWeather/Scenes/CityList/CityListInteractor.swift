@@ -31,22 +31,17 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
   var currentCities: [PWCity] = []
   var currentWeatherData: [CityWeatherResponse] = []
 
+  var reloadTimer: Timer?
+  let reloadTimeInterval: TimeInterval = 10*60 // 10 minutes per reload (as suggested by api)
+
   // MARK: - Public Funcs (Use cases):
   func getCityList(_ request: CityList.GetCityList.Request) {
-    let cityIds = PWSession.shared.cityIdList
-
-    all(self.worker.getWeatherData(for: cityIds), self.worker.getCities(for: cityIds))
-      .then { weatherData, cities in
-        self.currentCities = cities
-        self.currentWeatherData = weatherData
-
-        let response = CityList.GetCityList.Response(
-          weatherData: weatherData,
-          unitSystem: PWSession.shared.unitSystem)
-        self.presenter?.presentGetCityList(response)
-    }.catch { error in
-        print(error.localizedDescription)
+    self.reloadTimer?.invalidate()
+    self.reloadTimer = Timer.scheduledTimer(withTimeInterval: reloadTimeInterval,
+                                            repeats: true) { _ in
+      self.reloadWeatherData()
     }
+    self.reloadTimer?.fire()
   }
 
   func toggleUnitSystem(_ request: CityList.ToggleUnitSystem.Request) {
@@ -63,7 +58,11 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
       return
     }
 
-    self.worker.getWeatherData(for: requestedCity).then { response in
+    self.toggleReloadStatus(to: true)
+    self.worker.getWeatherData(for: requestedCity)
+    .always {
+      self.toggleReloadStatus(to: false)
+    }.then { response in
       PWSession.shared.cityIdList.append(requestedCity.id)
       self.currentCities.append(requestedCity)
       self.currentWeatherData.append(response)
@@ -83,5 +82,31 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
     self.currentCities.remove(at: selectedIndex)
     self.currentWeatherData.remove(at: selectedIndex)
     PWSession.shared.cityIdList.removeAll(where: { return $0 == cityId })
+  }
+
+  // MARK: - Private Funcs:
+  private func reloadWeatherData() {
+    let cityIds = PWSession.shared.cityIdList
+
+    self.toggleReloadStatus(to: true)
+    all(self.worker.getWeatherData(for: cityIds), self.worker.getCities(for: cityIds))
+      .then { weatherData, cities in
+        self.currentCities = cities
+        self.currentWeatherData = weatherData
+        
+        let response = CityList.GetCityList.Response(
+          weatherData: weatherData,
+          unitSystem: PWSession.shared.unitSystem)
+        self.presenter?.presentGetCityList(response)
+      }.catch { error in
+        print(error.localizedDescription)
+      }.always {
+        self.toggleReloadStatus(to: false)
+    }
+  }
+
+  private func toggleReloadStatus(to reloadStatus: Bool) {
+    let response = CityList.ReloadWeatherData.Response(isReloading: reloadStatus)
+    self.presenter?.presentReloadWeatherData(response)
   }
 }

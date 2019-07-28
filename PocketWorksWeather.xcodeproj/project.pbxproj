@@ -70,6 +70,7 @@
 		B4B4323A22EDB9210062F403 /* GetWeatherDataForCityOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B4323922EDB9210062F403 /* GetWeatherDataForCityOperation.swift */; };
 		B4B4323C22EDB9960062F403 /* PWCityWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B4323B22EDB9960062F403 /* PWCityWeather.swift */; };
 		B4B4323E22EDC7230062F403 /* SystemDateWithOffsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B4323D22EDC7230062F403 /* SystemDateWithOffsetLabel.swift */; };
+		B4B4324022EDF4F50062F403 /* DoubleExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B4323F22EDF4F50062F403 /* DoubleExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -158,6 +159,7 @@
 		B4B4323922EDB9210062F403 /* GetWeatherDataForCityOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetWeatherDataForCityOperation.swift; sourceTree = "<group>"; };
 		B4B4323B22EDB9960062F403 /* PWCityWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PWCityWeather.swift; sourceTree = "<group>"; };
 		B4B4323D22EDC7230062F403 /* SystemDateWithOffsetLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemDateWithOffsetLabel.swift; sourceTree = "<group>"; };
+		B4B4323F22EDF4F50062F403 /* DoubleExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubleExtensions.swift; sourceTree = "<group>"; };
 		B96B88ECF7F3E29E8E0FD15E /* Pods-PocketWorksWeatherTests.release (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeatherTests.release (prod).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeatherTests/Pods-PocketWorksWeatherTests.release (prod).xcconfig"; sourceTree = "<group>"; };
 		D8AA04E593D5FC8B9145D10C /* Pods-PocketWorksWeatherTests.debug (prod).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeatherTests.debug (prod).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeatherTests/Pods-PocketWorksWeatherTests.debug (prod).xcconfig"; sourceTree = "<group>"; };
 		DF5AFA3256F51B1F8038CD2C /* Pods-PocketWorksWeather.release (dev).xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PocketWorksWeather.release (dev).xcconfig"; path = "Target Support Files/Pods-PocketWorksWeather/Pods-PocketWorksWeather.release (dev).xcconfig"; sourceTree = "<group>"; };
@@ -411,6 +413,7 @@
 			children = (
 				B493223622ECBEC40029E158 /* StringExtensions.swift */,
 				B493223F22ECDD050029E158 /* NSAttributedStringExtensions.swift */,
+				B4B4323F22EDF4F50062F403 /* DoubleExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -458,9 +461,9 @@
 			children = (
 				B4B4322722ECFAEF0062F403 /* CityListActionCell */,
 				B4B4322222ECF7EF0062F403 /* CityListItemCell */,
+				B4B4321822ECF6320062F403 /* CityListRouter.swift */,
 				B4B4321622ECF6320062F403 /* CityListPresenter.swift */,
 				B4B4321722ECF6320062F403 /* CityListWorker.swift */,
-				B4B4321822ECF6320062F403 /* CityListRouter.swift */,
 				B4B4321922ECF6320062F403 /* CityListModels.swift */,
 				B4B4321A22ECF6320062F403 /* CityListViewController.swift */,
 				B4B4321B22ECF6320062F403 /* CityListInteractor.swift */,
@@ -742,6 +745,7 @@
 				B4B4322522ECF80D0062F403 /* CityListItemCell.swift in Sources */,
 				B4B4322A22ECFB010062F403 /* CityListActionCell.swift in Sources */,
 				B493222822ECB5920029E158 /* CitySearchModels.swift in Sources */,
+				B4B4324022EDF4F50062F403 /* DoubleExtensions.swift in Sources */,
 				B493223022ECBA120029E158 /* ConfigurableCells.swift in Sources */,
 				B4B4322D22EDA3630062F403 /* StoryboardBased.swift in Sources */,
 				B4B4321C22ECF6320062F403 /* CityListPresenter.swift in Sources */,

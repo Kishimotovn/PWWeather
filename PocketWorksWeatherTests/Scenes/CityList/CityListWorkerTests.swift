@@ -22,7 +22,8 @@ class CityListWorkerSpec: QuickSpec {
   override func spec() {
     describe("CityListWorker") {
       beforeEach {
-        self.sut = CityListWorker()
+        self.sut = CityListWorker(apiService: PWSession.shared.apiService,
+                                  cityListProvider: PWSession.shared)
       }
     }
   }

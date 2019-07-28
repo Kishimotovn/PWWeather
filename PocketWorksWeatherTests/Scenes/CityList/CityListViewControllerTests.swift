@@ -23,6 +23,9 @@ class CityListViewControllerSpec: QuickSpec {
   class CityListBusinessLogicSpy: CityListBusinessLogic {
     var getCityListCalled = false
     var toggleUnitSystemCalled = false
+    var registerCityCalled = false
+    var registerCityRequest: CityList.RegisterNewCity.Request?
+    var removeCityCalled = false
 
     func getCityList(_ request: CityList.GetCityList.Request) {
       self.getCityListCalled = true
@@ -30,6 +33,15 @@ class CityListViewControllerSpec: QuickSpec {
 
     func toggleUnitSystem(_ request: CityList.ToggleUnitSystem.Request) {
       self.toggleUnitSystemCalled = true
+    }
+
+    func registerNewCity(_ request: CityList.RegisterNewCity.Request) {
+      self.registerCityCalled = true
+      self.registerCityRequest = request
+    }
+    
+    func removeCity(_ request: CityList.RemoveCity.Request) {
+      self.removeCityCalled = true
     }
   }
 
@@ -88,6 +100,11 @@ class CityListViewControllerSpec: QuickSpec {
         it("should have correct data for table view") {
           loadView()
           var cityListCellVMs = [CityListCellVM]()
+          let itemCell = CityListItemCell.ViewModel(localTime: SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
+                                                                                                   timezoneOffset: 0),
+                                                    cityName: "Ha Noi",
+                                                    temperature: "30")
+          cityListCellVMs.append(itemCell)
           let actionCell = CityListActionCell.ViewModel(metricSystemButtonSelected: true, imperialSystemButtonSelected: false)
           cityListCellVMs.append(actionCell)
           let viewModel = CityList.GetCityList.ViewModel(cityList: cityListCellVMs)
@@ -98,7 +115,19 @@ class CityListViewControllerSpec: QuickSpec {
           expect(numberOfSections).to(equal(1))
 
           let numberOfItems = self.sut.tableView(self.sut.cityListTableView, numberOfRowsInSection: 0)
-          expect(numberOfItems).to(equal(1))
+          expect(numberOfItems).to(equal(2))
+
+          let indexPathForActionItem = IndexPath(row: 1, section: 0)
+          let canEditActionItem = self.sut.tableView(self.sut.cityListTableView, canEditRowAt: indexPathForActionItem)
+          expect(canEditActionItem).to(beFalse())
+          let editingStyleActionItem = self.sut.tableView(self.sut.cityListTableView, editingStyleForRowAt: indexPathForActionItem)
+          expect(editingStyleActionItem).to(equal(UITableViewCell.EditingStyle.none))
+
+          let indexPathForCityItem = IndexPath(row: 0, section: 0)
+          let canEditCityItem = self.sut.tableView(self.sut.cityListTableView, canEditRowAt: indexPathForCityItem)
+          expect(canEditCityItem).to(beTrue())
+          let editingStyleCityItem = self.sut.tableView(self.sut.cityListTableView, editingStyleForRowAt: indexPathForCityItem)
+          expect(editingStyleCityItem).to(equal(UITableViewCell.EditingStyle.delete))
         }
 
         it("should assign view model list and ask table view to reload data") {
@@ -113,6 +142,42 @@ class CityListViewControllerSpec: QuickSpec {
           self.sut.displayGetCityList(viewModel)
 
           expect(spy.reloadDataCalled).to(beTrue())
+        }
+      }
+
+      context("when register for new city") {
+        it("should ask interactor to handle registering a new city") {
+          let spy = CityListBusinessLogicSpy()
+          self.sut.interactor = spy
+          loadView()
+
+          self.sut.register(newCity: Seed.hanoi)
+
+          expect(spy.registerCityCalled).to(beTrue())
+          expect(spy.registerCityRequest).toNot(beNil())
+        }
+      }
+
+      context("when delete action on a city is commited") {
+        it("should ask interactor to remove this city") {
+          let spy = CityListBusinessLogicSpy()
+          self.sut.interactor = spy
+          loadView()
+          var cityListCellVMs = [CityListCellVM]()
+          let itemCell = CityListItemCell.ViewModel(localTime: SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
+                                                                                                   timezoneOffset: 0),
+                                                    cityName: "Ha Noi",
+                                                    temperature: "30")
+          cityListCellVMs.append(itemCell)
+          let actionCell = CityListActionCell.ViewModel(metricSystemButtonSelected: true, imperialSystemButtonSelected: false)
+          cityListCellVMs.append(actionCell)
+          let viewModel = CityList.GetCityList.ViewModel(cityList: cityListCellVMs)
+          self.sut.displayGetCityList(viewModel)
+
+          let indexPath = IndexPath(row: 0, section: 0)
+          self.sut.tableView(self.sut.cityListTableView, commit: .delete, forRowAt: indexPath)
+
+          expect(spy.removeCityCalled).to(beTrue())
         }
       }
     }

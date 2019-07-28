@@ -38,20 +38,28 @@
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8mX-ui-dhv">
                                                 <rect key="frame" x="0.0" y="0.0" width="414" height="104"/>
                                                 <subviews>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PW Weather" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBE-nj-SBM">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="G54-tW-Raa">
                                                         <rect key="frame" x="30" y="34" width="354" height="36"/>
-                                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
+                                                        <subviews>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PW Weather" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QBE-nj-SBM">
+                                                                <rect key="frame" x="0.0" y="0.0" width="161.5" height="36"/>
+                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleTitle0"/>
+                                                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                                <nil key="highlightedColor"/>
+                                                            </label>
+                                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="s1Y-8K-wuK">
+                                                                <rect key="frame" x="334" y="8" width="20" height="20"/>
+                                                            </activityIndicatorView>
+                                                        </subviews>
+                                                    </stackView>
                                                 </subviews>
                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <constraints>
-                                                    <constraint firstItem="QBE-nj-SBM" firstAttribute="centerY" secondItem="8mX-ui-dhv" secondAttribute="centerY" id="Htk-aC-1Lf"/>
+                                                    <constraint firstAttribute="trailing" secondItem="G54-tW-Raa" secondAttribute="trailing" constant="30" id="FB3-62-wKE"/>
+                                                    <constraint firstItem="G54-tW-Raa" firstAttribute="centerX" secondItem="8mX-ui-dhv" secondAttribute="centerX" id="N74-bs-DJ0"/>
+                                                    <constraint firstItem="G54-tW-Raa" firstAttribute="leading" secondItem="8mX-ui-dhv" secondAttribute="leading" constant="30" id="NTZ-fS-ecl"/>
+                                                    <constraint firstItem="G54-tW-Raa" firstAttribute="centerY" secondItem="8mX-ui-dhv" secondAttribute="centerY" id="VNS-ZP-TLc"/>
                                                     <constraint firstAttribute="height" constant="104" id="eBq-64-Spk"/>
-                                                    <constraint firstItem="QBE-nj-SBM" firstAttribute="leading" secondItem="8mX-ui-dhv" secondAttribute="leading" constant="30" id="hYt-Gz-pVJ"/>
-                                                    <constraint firstItem="QBE-nj-SBM" firstAttribute="centerX" secondItem="8mX-ui-dhv" secondAttribute="centerX" id="nDA-zX-pOY"/>
-                                                    <constraint firstAttribute="trailing" secondItem="QBE-nj-SBM" secondAttribute="trailing" constant="30" id="vJj-r8-lfc"/>
                                                 </constraints>
                                             </view>
                                         </subviews>
@@ -96,6 +104,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="8lq-4K-4p2"/>
                     <connections>
+                        <outlet property="activityIndicatorView" destination="s1Y-8K-wuK" id="Mt5-bn-1jt"/>
                         <outlet property="cityListTableView" destination="ZrO-oF-ztd" id="HRK-cd-CMz"/>
                     </connections>
                 </viewController>

@@ -22,10 +22,24 @@ class CityListPresenterSpec: QuickSpec {
   class CityListDisplayLogicSpy: CityListDisplayLogic {
     var displayGetCityListCalled = false
     var displayGetCityListVM: CityList.GetCityList.ViewModel?
+    var displayRegisterNewCityCalled = false
+    var displayRegisterNewCityVM: CityList.RegisterNewCity.ViewModel?
+    var displayReloadWeatherDataCalled = false
+    var displayReloadWeatherDataVM: CityList.ReloadWeatherData.ViewModel?
 
     func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel) {
       self.displayGetCityListCalled = true
       self.displayGetCityListVM = viewModel
+    }
+
+    func displayRegisterNewCity(_ viewModel: CityList.RegisterNewCity.ViewModel) {
+      self.displayRegisterNewCityCalled = true
+      self.displayRegisterNewCityVM = viewModel
+    }
+
+    func displayReloadWeatherData(_ viewModel: CityList.ReloadWeatherData.ViewModel) {
+      self.displayReloadWeatherDataCalled = true
+      self.displayReloadWeatherDataVM = viewModel
     }
   }
 
@@ -40,12 +54,63 @@ class CityListPresenterSpec: QuickSpec {
         it("should format list and ask view controller to display the formatted list") {
           let spy = CityListDisplayLogicSpy()
           self.sut.viewController = spy
-          let response = CityList.GetCityList.Response(unitSystem: .metric)
+          PWSession.shared.unitSystem = .metric
+          let response = CityList.GetCityList.Response(weatherData: [Seed.hanoiWeatherData],
+                                                       unitSystem: .metric)
 
           self.sut.presentGetCityList(response)
 
           expect(spy.displayGetCityListCalled).to(beTrue())
           expect(spy.displayGetCityListVM).toNot(beNil())
+          expect(spy.displayGetCityListVM?.cityList.count).to(equal(2))
+          expect(spy.displayGetCityListVM?.cityList.first).to(beAKindOf(CityListItemCell.ViewModel.self))
+
+          let itemCellVM = spy.displayGetCityListVM?.cityList.first as? CityListItemCell.ViewModel
+
+          expect(itemCellVM?.cityName).to(equal(Seed.hanoiWeatherData.name))
+          expect(itemCellVM?.localTime.timezoneOffset).to(equal(Seed.hanoiWeatherData.sys?.timezone))
+          expect(itemCellVM?.temperature).to(equal("30°"))
+  
+          expect(spy.displayGetCityListVM?.cityList[1]).to(beAKindOf(CityListActionCell.ViewModel.self))
+
+          let actionCellVM = spy.displayGetCityListVM?.cityList[1] as? CityListActionCell.ViewModel
+          expect(actionCellVM?.metricSystemButtonSelected).to(beTrue())
+          expect(actionCellVM?.imperialSystemButtonSelected).to(beFalse())
+        }
+      }
+
+      context("when present register new city") {
+        it("should format the response and ask view controller to display") {
+          let spy = CityListDisplayLogicSpy()
+          self.sut.viewController = spy
+          PWSession.shared.unitSystem = .metric
+
+          let response = CityList.RegisterNewCity.Response(weatherData: Seed.hanoiWeatherData)
+
+          self.sut.presentRegisterNewCity(response)
+
+          expect(spy.displayRegisterNewCityCalled).to(beTrue())
+          expect(spy.displayRegisterNewCityVM).toNot(beNil())
+          expect(spy.displayRegisterNewCityVM?.cellVM).to(beAKindOf(CityListItemCell.ViewModel.self))
+          let itemCellVM = spy.displayRegisterNewCityVM?.cellVM as? CityListItemCell.ViewModel
+          
+          expect(itemCellVM?.cityName).to(equal(Seed.hanoiWeatherData.name))
+          expect(itemCellVM?.localTime.timezoneOffset).to(equal(Seed.hanoiWeatherData.sys?.timezone))
+          expect(itemCellVM?.temperature).to(equal("30°"))
+        }
+      }
+
+      context("when present reload weather data") {
+        it("should pass the response and ask view controller to display") {
+          let spy = CityListDisplayLogicSpy()
+          self.sut.viewController = spy
+          let response = CityList.ReloadWeatherData.Response(isReloading: true)
+
+          self.sut.presentReloadWeatherData(response)
+
+          expect(spy.displayReloadWeatherDataCalled).to(beTrue())
+          expect(spy.displayReloadWeatherDataVM).toNot(beNil())
+          expect(spy.displayReloadWeatherDataVM?.isReloading).to(beTrue())
         }
       }
     }

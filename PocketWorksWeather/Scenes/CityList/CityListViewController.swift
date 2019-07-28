@@ -15,6 +15,7 @@ import UIKit
 protocol CityListDisplayLogic: class {
   func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel)
   func displayRegisterNewCity(_ viewModel: CityList.RegisterNewCity.ViewModel)
+  func displayReloadWeatherData(_ viewModel: CityList.ReloadWeatherData.ViewModel)
 }
 
 class CityListViewController: UIViewController, CityListDisplayLogic {
@@ -24,6 +25,7 @@ class CityListViewController: UIViewController, CityListDisplayLogic {
 
   // MARK: - IBOutlets:
   @IBOutlet weak var cityListTableView: UITableView!
+  @IBOutlet weak var activityIndicatorView: UIActivityIndicatorView!
 
   // MARK: - IBActions:
 
@@ -36,6 +38,10 @@ class CityListViewController: UIViewController, CityListDisplayLogic {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.setupUI()
+  }
+
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
     self.getCityListOnLaunch()
   }
 
@@ -59,6 +65,10 @@ class CityListViewController: UIViewController, CityListDisplayLogic {
   func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel) {
     self.cityList = viewModel.cityList
     self.cityListTableView.reloadData()
+  }
+
+  func displayReloadWeatherData(_ viewModel: CityList.ReloadWeatherData.ViewModel) {
+    self.activityIndicatorView.isHidden = !viewModel.isReloading
   }
 
   // MARK: - Private Funcs:

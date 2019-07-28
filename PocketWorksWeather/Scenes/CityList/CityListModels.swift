@@ -50,4 +50,13 @@ enum CityList {
       var selectedIndex: Int
     }
   }
+
+  enum ReloadWeatherData {
+    struct Response {
+      var isReloading: Bool
+    }
+    struct ViewModel {
+      var isReloading: Bool
+    }
+  }
 }

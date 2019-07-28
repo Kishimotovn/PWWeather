@@ -15,6 +15,7 @@ import UIKit
 protocol CityListPresentationLogic {
   func presentGetCityList(_ response: CityList.GetCityList.Response)
   func presentRegisterNewCity(_ response: CityList.RegisterNewCity.Response)
+  func presentReloadWeatherData(_ response: CityList.ReloadWeatherData.Response)
 }
 
 class CityListPresenter: CityListPresentationLogic {
@@ -41,6 +42,11 @@ class CityListPresenter: CityListPresentationLogic {
     self.viewController?.displayRegisterNewCity(viewModel)
   }
 
+  func presentReloadWeatherData(_ response: CityList.ReloadWeatherData.Response) {
+    let viewModel = CityList.ReloadWeatherData.ViewModel(isReloading: response.isReloading)
+    self.viewController?.displayReloadWeatherData(viewModel)
+  }
+
   // MARK: - Private Funcs:
   private func buildActionCellVM(with unitSystem: PWUnitSystem) -> CityListActionCell.ViewModel {
     return CityListActionCell.ViewModel(
@@ -51,14 +57,14 @@ class CityListPresenter: CityListPresentationLogic {
   private func buildItemCell(with response: CityWeatherResponse) -> CityListItemCell.ViewModel {
     var localTime = SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
                                                         timezoneOffset: 0.0)
-    if let timezoneOffset = response.timezone {
+    if let timezoneOffset = response.sys?.timezone {
       localTime = SystemDateWithOffsetLabel.ViewModel(dateFormat: "HH:mm",
                                                       timezoneOffset: timezoneOffset)
     }
     let cityName = response.name ?? ""
     var temperature = "N/A"
     if let temp = response.main?.temp {
-      temperature = "\(temp)°"
+      temperature = temp.tempString(for: PWSession.shared.unitSystem)
     }
     return CityListItemCell.ViewModel(
       localTime: localTime,

@@ -11,17 +11,20 @@ import Foundation
 struct CityWeatherResponse: Decodable {
   var coord: CityCoordinatesResponse?
   var weather: [WeatherResponse]?
-  var base: String?
   var main: CityWeatherMainResponse?
   var visibility: Double?
   var wind: CityWindResponse?
   var clouds: CityCloudsResponse?
   var dt: Int?
   var sys: CitySysResponse?
-  var timezone: Double?
   var id: Int?
   var name: String?
-  var cod: Int?
+}
+
+extension CityWeatherResponse: Equatable {
+  public static func ==(lhs: CityWeatherResponse, rhs: CityWeatherResponse) -> Bool {
+    return lhs.id == rhs.id
+  }
 }
 
 struct CityCoordinatesResponse: Decodable {
@@ -55,6 +58,7 @@ struct CityCloudsResponse: Decodable {
 
 struct CitySysResponse: Decodable {
   var country: String?
+  var timezone: Double?
   var sunrise: Date?
   var sunset: Date?
 }

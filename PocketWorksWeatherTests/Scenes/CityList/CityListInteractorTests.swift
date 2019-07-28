@@ -13,6 +13,7 @@
 @testable import PocketWorksWeather
 import Quick
 import Nimble
+import Promises
 
 class CityListInteractorSpec: QuickSpec {
   // MARK: - Subject under test:
@@ -22,9 +23,41 @@ class CityListInteractorSpec: QuickSpec {
   class CityListPresentationLogicSpy: CityListPresentationLogic {
     var presentGetCityCalled = false
     var presentGetCityResponse: CityList.GetCityList.Response?
+    var presentRegisterNewCityCalled = false
+    var presentRegisterNewCityResponse: CityList.RegisterNewCity.Response?
+    var presentReloadWeatherDataCalled = false
+    var presentReloadWeatherDataResponses: [Bool] = []
     func presentGetCityList(_ response: CityList.GetCityList.Response) {
       self.presentGetCityCalled = true
       self.presentGetCityResponse = response
+    }
+    func presentRegisterNewCity(_ response: CityList.RegisterNewCity.Response) {
+      self.presentRegisterNewCityCalled = true
+      self.presentRegisterNewCityResponse = response
+    }
+    func presentReloadWeatherData(_ response: CityList.ReloadWeatherData.Response) {
+      self.presentReloadWeatherDataCalled = true
+      self.presentReloadWeatherDataResponses.append(response.isReloading)
+    }
+  }
+
+  class CityListWorkerSpy: CityListWorker {
+    var getCitiesCalled = false
+    var getWeatherDataForCityCalled = false
+    var getWeatherDataForCitiesCalled = false
+    override func getWeatherData(for city: PWCity) -> Promise<CityWeatherResponse> {
+      self.getWeatherDataForCityCalled = true
+      return Promise(Seed.hanoiWeatherData).delay(0.5)
+    }
+
+    override func getWeatherData(for cityIds: [Int]) -> Promise<[CityWeatherResponse]> {
+      self.getWeatherDataForCitiesCalled = true
+      return Promise([Seed.hanoiWeatherData]).delay(0.5)
+    }
+
+    override func getCities(for cityIds: [Int]) -> Promise<[PWCity]> {
+      self.getCitiesCalled = true
+      return Promise([Seed.hanoi]).delay(0.5)
     }
   }
 
@@ -36,16 +69,107 @@ class CityListInteractorSpec: QuickSpec {
       }
 
       context("when get city list") {
-        it("should ask presenter to present the list") {
+        it("should ask worker to fetch data and ask presenter to present the list") {
           let spy = CityListPresentationLogicSpy()
           self.sut.presenter = spy
+          let workerSpy = CityListWorkerSpy(apiService: PWSession.shared.apiService, cityListProvider: PWSession.shared)
+          self.sut.worker = workerSpy
           let request = CityList.GetCityList.Request()
 
           self.sut.getCityList(request)
 
-          expect(spy.presentGetCityCalled).to(beTrue())
-          expect(spy.presentGetCityResponse).toNot(beNil())
-          expect(spy.presentGetCityResponse?.unitSystem).to(equal(PWSession.shared.unitSystem))
+          expect(self.sut.reloadTimer).toNot(beNil())
+          
+          expect(workerSpy.getCitiesCalled).toEventually(beTrue(), timeout: 1)
+          expect(workerSpy.getWeatherDataForCitiesCalled).toEventually(beTrue(), timeout: 1)
+          expect(spy.presentGetCityCalled).toEventually(beTrue(), timeout: 1)
+          expect(spy.presentGetCityResponse).toEventuallyNot(beNil(), timeout: 1)
+          expect(spy.presentGetCityResponse?.unitSystem).toEventually(equal(PWSession.shared.unitSystem), timeout: 1)
+        }
+      }
+
+      context("when register new city") {
+        it("should not proceed if current cities already contained requested city") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+
+          let request = CityList.RegisterNewCity.Request(city: Seed.hanoi)
+          self.sut.registerNewCity(request)
+
+          expect(spy.presentRegisterNewCityCalled).to(beFalse())
+        }
+
+        it("should ask presenter to present reload status when adding requested city") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          let workerSpy = CityListWorkerSpy(apiService: PWSession.shared.apiService, cityListProvider: PWSession.shared)
+          self.sut.worker = workerSpy
+  
+          let request = CityList.RegisterNewCity.Request(city: Seed.hanoi)
+          self.sut.registerNewCity(request)
+
+          expect(spy.presentReloadWeatherDataCalled).toEventually(beTrue(), timeout: 1)
+          expect(spy.presentReloadWeatherDataResponses).toEventually(equal([true, false]), timeout: 1)
+          expect(self.sut.currentCities).toEventually(equal([Seed.hanoi]), timeout: 1)
+          expect(self.sut.currentWeatherData).toEventually(equal([Seed.hanoiWeatherData]), timeout: 1)
+        }
+
+        it("should ask presenter to present result if found") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          let workerSpy = CityListWorkerSpy(apiService: PWSession.shared.apiService, cityListProvider: PWSession.shared)
+          self.sut.worker = workerSpy
+          
+          let request = CityList.RegisterNewCity.Request(city: Seed.hanoi)
+          self.sut.registerNewCity(request)
+          
+          expect(spy.presentRegisterNewCityCalled).toEventually(beTrue(), timeout: 1)
+          expect(spy.presentRegisterNewCityResponse).toEventuallyNot(beNil(), timeout: 1)
+          expect(spy.presentRegisterNewCityResponse?.weatherData).toEventually(equal(Seed.hanoiWeatherData), timeout: 1)
+          expect(self.sut.currentCities).toEventually(equal([Seed.hanoi]), timeout: 1)
+          expect(self.sut.currentWeatherData).toEventually(equal([Seed.hanoiWeatherData]), timeout: 1)
+        }
+      }
+
+      context("when remove a city") {
+        it("should not proceed if selected index is invalid") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+          self.sut.currentWeatherData = [Seed.hanoiWeatherData]
+
+          let request = CityList.RemoveCity.Request(selectedIndex: -1)
+          self.sut.removeCity(request)
+
+          expect(self.sut.currentCities).to(equal([Seed.hanoi]))
+          expect(self.sut.currentWeatherData).to(equal([Seed.hanoiWeatherData]))
+        }
+
+        it("should not proceed if selected index is out of bounds") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+          self.sut.currentWeatherData = [Seed.hanoiWeatherData]
+          
+          let request = CityList.RemoveCity.Request(selectedIndex: 2)
+          self.sut.removeCity(request)
+          
+          expect(self.sut.currentCities).to(equal([Seed.hanoi]))
+          expect(self.sut.currentWeatherData).to(equal([Seed.hanoiWeatherData]))
+        }
+
+        it("should remove city from data according to request") {
+          let spy = CityListPresentationLogicSpy()
+          self.sut.presenter = spy
+          self.sut.currentCities = [Seed.hanoi]
+          self.sut.currentWeatherData = [Seed.hanoiWeatherData]
+          
+          let request = CityList.RemoveCity.Request(selectedIndex: 0)
+          self.sut.removeCity(request)
+          
+          expect(self.sut.currentCities).to(equal([]))
+          expect(self.sut.currentWeatherData).to(equal([]))
         }
       }
     }
