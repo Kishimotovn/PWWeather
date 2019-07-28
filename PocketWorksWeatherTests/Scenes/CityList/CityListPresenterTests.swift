@@ -69,7 +69,7 @@ class CityListPresenterSpec: QuickSpec {
 
           expect(itemCellVM?.cityName).to(equal(Seed.hanoiWeatherData.name))
           expect(itemCellVM?.localTime.timezoneOffset).to(equal(Seed.hanoiWeatherData.sys?.timezone))
-          expect(itemCellVM?.temperature).to(equal("30°"))
+          expect(itemCellVM?.windDirectionString).to(equal("30°"))
   
           expect(spy.displayGetCityListVM?.cityList[1]).to(beAKindOf(CityListActionCell.ViewModel.self))
 
@@ -96,7 +96,7 @@ class CityListPresenterSpec: QuickSpec {
           
           expect(itemCellVM?.cityName).to(equal(Seed.hanoiWeatherData.name))
           expect(itemCellVM?.localTime.timezoneOffset).to(equal(Seed.hanoiWeatherData.sys?.timezone))
-          expect(itemCellVM?.temperature).to(equal("30°"))
+          expect(itemCellVM?.windDirectionString).to(equal("30°"))
         }
       }
 

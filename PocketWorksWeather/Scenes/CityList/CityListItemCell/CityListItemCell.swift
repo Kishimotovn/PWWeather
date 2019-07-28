@@ -12,13 +12,13 @@ class CityListItemCell: UITableViewCell, ConfigurableCell {
   struct ViewModel: CityListCellVM {
     var localTime: SystemDateWithOffsetLabel.ViewModel
     var cityName: String
-    var temperature: String
+    var windDirectionString: NSAttributedString
   }
 
   // MARK: - IBOutlets:
   @IBOutlet weak var localTimeLabel: SystemDateWithOffsetLabel!
   @IBOutlet weak var cityNameLabel: UILabel!
-  @IBOutlet weak var temperatureLabel: UILabel!
+  @IBOutlet weak var windDirectionLabel: UILabel!
 
   // MARK: - ViewModel:
   var viewModel: ViewModel! {
@@ -41,6 +41,6 @@ class CityListItemCell: UITableViewCell, ConfigurableCell {
   private func updateUI() {
     self.localTimeLabel.viewModel = self.viewModel.localTime
     self.cityNameLabel.text = self.viewModel.cityName
-    self.temperatureLabel.text = self.viewModel.temperature
+    self.windDirectionLabel.attributedText = self.viewModel.windDirectionString
   }
 }

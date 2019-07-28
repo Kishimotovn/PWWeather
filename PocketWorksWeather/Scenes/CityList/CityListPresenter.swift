@@ -16,6 +16,7 @@ protocol CityListPresentationLogic {
   func presentGetCityList(_ response: CityList.GetCityList.Response)
   func presentRegisterNewCity(_ response: CityList.RegisterNewCity.Response)
   func presentReloadWeatherData(_ response: CityList.ReloadWeatherData.Response)
+  func presentSelectCity(_ response: CityList.SelectCity.Response)
 }
 
 class CityListPresenter: CityListPresentationLogic {
@@ -47,6 +48,11 @@ class CityListPresenter: CityListPresentationLogic {
     self.viewController?.displayReloadWeatherData(viewModel)
   }
 
+  func presentSelectCity(_ response: CityList.SelectCity.Response) {
+    let viewModel = CityList.SelectCity.ViewModel()
+    self.viewController?.displaySelectCity(viewModel)
+  }
+
   // MARK: - Private Funcs:
   private func buildActionCellVM(with unitSystem: PWUnitSystem) -> CityListActionCell.ViewModel {
     return CityListActionCell.ViewModel(
@@ -62,13 +68,24 @@ class CityListPresenter: CityListPresentationLogic {
                                                       timezoneOffset: timezoneOffset)
     }
     let cityName = response.name ?? ""
-    var temperature = "N/A"
-    if let temp = response.main?.temp {
-      temperature = temp.tempString(for: PWSession.shared.unitSystem)
+
+    let windSpeed = response.wind?.speed ?? 0.0
+    let windDirectionString = NSMutableAttributedString()
+    if let windDirection = response.wind?.deg {
+      let direction = WindDirection(windDirection)
+      let directionString = NSAttributedString(string: "\(direction) ".uppercased())
+        .applyForegroundColor(.white)
+        .applyFont(UIFont.systemFont(ofSize: 30, weight: .medium))
+      windDirectionString.append(directionString)
     }
+    let windSpeedString = NSAttributedString(string: windSpeed.windSpeedString(for: PWSession.shared.unitSystem))
+      .applyFont(UIFont.systemFont(ofSize: 40, weight: .thin))
+      .applyForegroundColor(.white)
+    windDirectionString.append(windSpeedString)
+
     return CityListItemCell.ViewModel(
       localTime: localTime,
       cityName: cityName,
-      temperature: temperature)
+      windDirectionString: windDirectionString)
   }
 }

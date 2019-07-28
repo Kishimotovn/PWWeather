@@ -59,4 +59,12 @@ enum CityList {
       var isReloading: Bool
     }
   }
+
+  enum SelectCity {
+    struct Request {
+      var selectedIndex: Int
+    }
+    struct Response { }
+    struct ViewModel { }
+  }
 }

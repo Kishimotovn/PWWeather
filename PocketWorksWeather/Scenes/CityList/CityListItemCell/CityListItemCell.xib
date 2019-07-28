@@ -71,7 +71,7 @@
             <connections>
                 <outlet property="cityNameLabel" destination="1G9-Bm-8NV" id="jrx-R2-v1d"/>
                 <outlet property="localTimeLabel" destination="y5h-2D-P82" id="Qg7-of-GiA"/>
-                <outlet property="temperatureLabel" destination="nKq-a1-69h" id="Tkh-G8-Wdb"/>
+                <outlet property="windDirectionLabel" destination="nKq-a1-69h" id="Tkh-G8-Wdb"/>
             </connections>
             <point key="canvasLocation" x="137.68115942028987" y="173.77232142857142"/>
         </tableViewCell>

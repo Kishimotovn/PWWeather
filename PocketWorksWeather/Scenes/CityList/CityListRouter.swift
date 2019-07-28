@@ -13,7 +13,7 @@
 import UIKit
 
 @objc protocol CityListRoutingLogic {
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
+  func routeToCityDetails()
 }
 
 protocol CityListDataPassing {
@@ -26,31 +26,12 @@ class CityListRouter: NSObject, CityListRoutingLogic, CityListDataPassing {
   var dataStore: CityListDataStore?
 
   // MARK: - Routing:
-  //func routeToSomewhere(segue: UIStoryboardSegue?)
-  //{
-  //  if let segue = segue {
-  //    let destinationVC = segue.destination as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //  } else {
-  //    let storyboard = UIStoryboard(name: "Main", bundle: nil)
-  //    let destinationVC = storyboard.instantiateViewController(withIdentifier: "SomewhereViewController") as! SomewhereViewController
-  //    var destinationDS = destinationVC.router!.dataStore!
-  //    passDataToSomewhere(source: dataStore!, destination: &destinationDS)
-  //    navigateToSomewhere(source: viewController!, destination: destinationVC)
-  //  }
-  //}
+  func routeToCityDetails() {
+    guard let selectedWeatherData = self.dataStore?.selectedWeatherData else {
+      return
+    }
 
-  // MARK: - Navigation:
-  //func navigateToSomewhere(source: CityListViewController, destination: SomewhereViewController)
-  //{
-  //  source.show(destination, sender: nil)
-  //}
-
-  // MARK: Passing data
-
-  //func passDataToSomewhere(source: CityListDataStore, destination: inout SomewhereDataStore)
-  //{
-  //  destination.name = source.name
-  //}
+    let cityDetailsVC = CityDetailsViewController.route(with: selectedWeatherData)
+    self.viewController?.present(cityDetailsVC, animated: true, completion: nil)
+  }
 }

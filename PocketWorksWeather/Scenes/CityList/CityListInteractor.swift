@@ -18,9 +18,11 @@ protocol CityListBusinessLogic {
   func toggleUnitSystem(_ request: CityList.ToggleUnitSystem.Request)
   func registerNewCity(_ request: CityList.RegisterNewCity.Request)
   func removeCity(_ request: CityList.RemoveCity.Request)
+  func selectCity(_ request: CityList.SelectCity.Request)
 }
 
 protocol CityListDataStore {
+  var selectedWeatherData: CityWeatherResponse? { get }
 }
 
 class CityListInteractor: CityListBusinessLogic, CityListDataStore {
@@ -33,6 +35,7 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
 
   var reloadTimer: Timer?
   let reloadTimeInterval: TimeInterval = 10*60 // 10 minutes per reload (as suggested by api)
+  var selectedWeatherData: CityWeatherResponse?
 
   // MARK: - Public Funcs (Use cases):
   func getCityList(_ request: CityList.GetCityList.Request) {
@@ -84,6 +87,18 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
     PWSession.shared.cityIdList.removeAll(where: { return $0 == cityId })
   }
 
+  func selectCity(_ request: CityList.SelectCity.Request) {
+    let selectedIndex = request.selectedIndex
+
+    guard selectedIndex >= 0, self.currentWeatherData.count > selectedIndex else {
+      return
+    }
+
+    self.selectedWeatherData = self.currentWeatherData[selectedIndex]
+    let response = CityList.SelectCity.Response()
+    self.presenter?.presentSelectCity(response)
+  }
+
   // MARK: - Private Funcs:
   private func reloadWeatherData() {
     let cityIds = PWSession.shared.cityIdList
@@ -93,7 +108,7 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
       .then { weatherData, cities in
         self.currentCities = cities
         self.currentWeatherData = weatherData
-        
+
         let response = CityList.GetCityList.Response(
           weatherData: weatherData,
           unitSystem: PWSession.shared.unitSystem)

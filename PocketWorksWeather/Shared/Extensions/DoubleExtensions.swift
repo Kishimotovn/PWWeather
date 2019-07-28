@@ -26,4 +26,40 @@ extension Double {
     formatter.numberFormatter = numberFormatter
     return formatter.string(from: measurement)
   }
+
+  func windSpeedString(for unitSystem: PWUnitSystem) -> String {
+    var measurement = Measurement(value: self, unit: UnitSpeed.metersPerSecond)
+    switch unitSystem {
+    case .imperial:
+      measurement.convert(to: .milesPerHour)
+    default:
+      break
+    }
+    let formatter = MeasurementFormatter()
+    formatter.unitOptions = .providedUnit
+    
+    let numberFormatter = NumberFormatter()
+    numberFormatter.maximumFractionDigits = 0
+    
+    formatter.numberFormatter = numberFormatter
+    return formatter.string(from: measurement)
+  }
+
+  func visibilityString(for unitSystem: PWUnitSystem) -> String {
+    var measurement = Measurement(value: self, unit: UnitLength.meters)
+    switch unitSystem {
+    case .imperial:
+      measurement.convert(to: .miles)
+    case .metric:
+      measurement.convert(to: .kilometers)
+    }
+    let formatter = MeasurementFormatter()
+    formatter.unitOptions = .providedUnit
+    
+    let numberFormatter = NumberFormatter()
+    numberFormatter.maximumFractionDigits = 0
+    
+    formatter.numberFormatter = numberFormatter
+    return formatter.string(from: measurement)
+  }
 }

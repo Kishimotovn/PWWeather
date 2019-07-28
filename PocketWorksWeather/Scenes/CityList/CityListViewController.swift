@@ -16,6 +16,7 @@ protocol CityListDisplayLogic: class {
   func displayGetCityList(_ viewModel: CityList.GetCityList.ViewModel)
   func displayRegisterNewCity(_ viewModel: CityList.RegisterNewCity.ViewModel)
   func displayReloadWeatherData(_ viewModel: CityList.ReloadWeatherData.ViewModel)
+  func displaySelectCity(_ viewModel: CityList.SelectCity.ViewModel)
 }
 
 class CityListViewController: UIViewController, CityListDisplayLogic {
@@ -68,7 +69,13 @@ class CityListViewController: UIViewController, CityListDisplayLogic {
   }
 
   func displayReloadWeatherData(_ viewModel: CityList.ReloadWeatherData.ViewModel) {
-    self.activityIndicatorView.isHidden = !viewModel.isReloading
+    viewModel.isReloading ?
+      self.activityIndicatorView.startAnimating() :
+      self.activityIndicatorView.stopAnimating()
+  }
+
+  func displaySelectCity(_ viewModel: CityList.SelectCity.ViewModel) {
+    self.router?.routeToCityDetails()
   }
 
   // MARK: - Private Funcs:
@@ -143,6 +150,11 @@ extension CityListViewController: UITableViewDataSource {
 }
 
 extension CityListViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let request = CityList.SelectCity.Request(selectedIndex: indexPath.row)
+    self.interactor?.selectCity(request)
+  }
+
   func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
     let item = self.cityList[indexPath.row]
 
