@@ -14,14 +14,23 @@ import UIKit
 
 protocol CityDetailsDisplayLogic: class {
   func displayShowWeather(_ viewModel: CityDetails.ShowWeather.ViewModel)
+  func displayGetForecastData(_ viewModel: CityDetails.GetForecastData.ViewModel)
+  func displayToggleForecastLoading(_ viewModel: CityDetails.ToggleForecastLoading.ViewModel)
+  func displayShowError(_ viewModel: CityDetails.ShowError.ViewModel)
 }
 
 class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, RouteDataBased {
   static var storyboardName: String {
     return "Main"
   }
+
   override var preferredStatusBarStyle: UIStatusBarStyle {
     return .lightContent
+  }
+
+  struct RouteData {
+    var city: PWCity
+    var weatherData: CityWeatherResponse
   }
 
   // MARK: - IBOutlets:
@@ -40,6 +49,7 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
   @IBOutlet weak var pressureLabel: UILabel!
   @IBOutlet weak var visibilityLabel: UILabel!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+  @IBOutlet weak var forecastsCollectionView: UICollectionView!
 
   // MARK: - IBActions:
   @IBAction func back() {
@@ -59,6 +69,7 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
   var interactor: CityDetailsBusinessLogic?
   var router: (NSObjectProtocol & CityDetailsRoutingLogic & CityDetailsDataPassing)?
   let transitionDelegate = CityDetailsTransitionDelegate()
+  var forecastsVMs: [WindForecastCell.ViewModel] = []
 
   // MARK: - View Life Cycle:
   override func viewDidLoad() {
@@ -68,6 +79,11 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
   }
 
   // MARK: - Public Funcs (Use cases):
+  func displayGetForecastData(_ viewModel: CityDetails.GetForecastData.ViewModel) {
+    self.forecastsVMs = viewModel.forecastVMs
+    self.forecastsCollectionView.reloadData()
+  }
+
   func displayShowWeather(_ viewModel: CityDetails.ShowWeather.ViewModel) {
     self.cityNameLabel.text = viewModel.cityName
     self.mainWeatherLabel.text = viewModel.mainWeather
@@ -84,9 +100,27 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
     self.visibilityLabel.text = viewModel.visibility
   }
 
+  func displayToggleForecastLoading(_ viewModel: CityDetails.ToggleForecastLoading.ViewModel) {
+    viewModel.isLoading ?
+      self.activityIndicator.startAnimating() :
+      self.activityIndicator.stopAnimating()
+  }
+
+  func displayShowError(_ viewModel: CityDetails.ShowError.ViewModel) {
+    self.alert(title: "Error", message: viewModel.errorString) {
+      self.reloadForecastData()
+    }
+  }
+
+  func reloadForecastData() {
+    let request = CityDetails.GetForecastData.Request()
+    self.interactor?.getForecastsData(request)
+  }
+
   // MARK: - Private Funcs:
   private func setupUIOnLaunch() {
     self.setupScrollView()
+    self.setupForecastsCollectionView()
   }
 
   private func showWeatherOnLaunch() {
@@ -96,6 +130,11 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
 
   private func setupScrollView() {
     self.contentScrollView.contentInset = UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
+  }
+
+  private func setupForecastsCollectionView() {
+    self.forecastsCollectionView.register(WindForecastCell.nib, forCellWithReuseIdentifier: WindForecastCell.identifier)
+    self.forecastsCollectionView.dataSource = self
   }
 
   // MARK: - VIP Setup:
@@ -123,11 +162,29 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
     self.transitioningDelegate = self.transitionDelegate
   }
 
-  func configure(with passedData: CityWeatherResponse) {
+  func configure(with passedData: RouteData) {
     var dataStore = self.router?.dataStore
-    dataStore?.weatherData = passedData
+    dataStore?.weatherData = passedData.weatherData
+    dataStore?.city = passedData.city
   }
 }
 
-extension CityDetailsViewController: UIScrollViewDelegate {
+extension CityDetailsViewController: UICollectionViewDataSource {
+  func numberOfSections(in collectionView: UICollectionView) -> Int {
+    return 1
+  }
+
+  func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    return self.forecastsVMs.count
+  }
+
+  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: WindForecastCell.identifier, for: indexPath) as? WindForecastCell else {
+      fatalError("cell not configured")
+    }
+
+    cell.viewModel = self.forecastsVMs[indexPath.row]
+
+    return cell
+  }
 }

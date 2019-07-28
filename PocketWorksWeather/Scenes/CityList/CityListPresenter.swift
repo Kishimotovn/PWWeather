@@ -17,6 +17,7 @@ protocol CityListPresentationLogic {
   func presentRegisterNewCity(_ response: CityList.RegisterNewCity.Response)
   func presentReloadWeatherData(_ response: CityList.ReloadWeatherData.Response)
   func presentSelectCity(_ response: CityList.SelectCity.Response)
+  func presentShowError(_ response: CityList.ShowError.Response)
 }
 
 class CityListPresenter: CityListPresentationLogic {
@@ -51,6 +52,11 @@ class CityListPresenter: CityListPresentationLogic {
   func presentSelectCity(_ response: CityList.SelectCity.Response) {
     let viewModel = CityList.SelectCity.ViewModel()
     self.viewController?.displaySelectCity(viewModel)
+  }
+
+  func presentShowError(_ response: CityList.ShowError.Response) {
+    let viewModel = CityList.ShowError.ViewModel(errorString: response.error.localizedDescription)
+    self.viewController?.displayShowError(viewModel)
   }
 
   // MARK: - Private Funcs:

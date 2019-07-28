@@ -17,6 +17,7 @@ protocol CityListDisplayLogic: class {
   func displayRegisterNewCity(_ viewModel: CityList.RegisterNewCity.ViewModel)
   func displayReloadWeatherData(_ viewModel: CityList.ReloadWeatherData.ViewModel)
   func displaySelectCity(_ viewModel: CityList.SelectCity.ViewModel)
+  func displayShowError(_ viewModel: CityList.ShowError.ViewModel)
 }
 
 class CityListViewController: UIViewController, CityListDisplayLogic {
@@ -76,6 +77,12 @@ class CityListViewController: UIViewController, CityListDisplayLogic {
 
   func displaySelectCity(_ viewModel: CityList.SelectCity.ViewModel) {
     self.router?.routeToCityDetails()
+  }
+
+  func displayShowError(_ viewModel: CityList.ShowError.ViewModel) {
+    self.alert(title: "Error", message: viewModel.errorString) {
+      self.getCityListOnLaunch()
+    }
   }
 
   // MARK: - Private Funcs:

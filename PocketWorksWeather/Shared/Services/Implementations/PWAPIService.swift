@@ -33,4 +33,12 @@ class PWAPIService: PWAPIServiceProtocol {
     return GetWeatherDataForCityOperation(cityId: cityId)
       .execute(in: self.executor)
   }
+
+  func getCityWeatherForecast(for cityId: String) -> Promise<[CityWeatherResponse]> {
+    return GetWeatherDataForecastForCityOperation(cityId: cityId)
+      .execute(in: self.executor)
+      .then { cityListResponse in
+        return cityListResponse.list
+    }
+  }
 }

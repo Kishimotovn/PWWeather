@@ -67,4 +67,13 @@ enum CityList {
     struct Response { }
     struct ViewModel { }
   }
+
+  enum ShowError {
+    struct Response {
+      var error: Error
+    }
+    struct ViewModel {
+      var errorString: String
+    }
+  }
 }

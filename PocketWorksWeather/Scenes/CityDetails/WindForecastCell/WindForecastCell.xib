@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="WindForecastCell" customModule="PocketWorksWeather" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="118" height="195"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="118" height="195"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgd-aA-v3g">
+                        <rect key="frame" x="0.0" y="0.0" width="118" height="195"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="lpx-Zx-Jcx">
+                                <rect key="frame" x="0.0" y="0.0" width="118" height="195"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="999" text="20:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xPD-MI-Rye">
+                                        <rect key="frame" x="0.0" y="0.0" width="118" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CWF-lv-gfk">
+                                        <rect key="frame" x="0.0" y="28.5" width="118" height="138"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wRS-GD-wwe" customClass="PWAsyncImageView" customModule="PocketWorksWeather" customModuleProvider="target">
+                                                <rect key="frame" x="0.0" y="0.0" width="118" height="138"/>
+                                                <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <connections>
+                                                    <outlet property="activityIndicator" destination="MeC-Ra-T1b" id="Bda-oq-P9F"/>
+                                                </connections>
+                                            </imageView>
+                                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="MeC-Ra-T1b">
+                                                <rect key="frame" x="49" y="59" width="20" height="20"/>
+                                            </activityIndicatorView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="MeC-Ra-T1b" firstAttribute="centerX" secondItem="CWF-lv-gfk" secondAttribute="centerX" id="5Ve-Cc-C0M"/>
+                                            <constraint firstItem="wRS-GD-wwe" firstAttribute="top" secondItem="CWF-lv-gfk" secondAttribute="top" id="917-au-n08"/>
+                                            <constraint firstItem="wRS-GD-wwe" firstAttribute="leading" secondItem="CWF-lv-gfk" secondAttribute="leading" id="GBn-lz-EiQ"/>
+                                            <constraint firstItem="MeC-Ra-T1b" firstAttribute="centerY" secondItem="CWF-lv-gfk" secondAttribute="centerY" id="XJd-bz-8bg"/>
+                                            <constraint firstAttribute="bottom" secondItem="wRS-GD-wwe" secondAttribute="bottom" id="w4e-ka-cxM"/>
+                                            <constraint firstAttribute="trailing" secondItem="wRS-GD-wwe" secondAttribute="trailing" id="xel-Z6-5OC"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="999" verticalCompressionResistancePriority="999" text="NNE 200 mph" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="f9I-WF-WPY">
+                                        <rect key="frame" x="0.0" y="174.5" width="118" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="lpx-Zx-Jcx" firstAttribute="top" secondItem="hgd-aA-v3g" secondAttribute="top" id="JZW-hk-gEs"/>
+                            <constraint firstAttribute="bottom" secondItem="lpx-Zx-Jcx" secondAttribute="bottom" id="Mtv-p2-6rI"/>
+                            <constraint firstAttribute="trailing" secondItem="lpx-Zx-Jcx" secondAttribute="trailing" id="h2d-3a-Ods"/>
+                            <constraint firstItem="lpx-Zx-Jcx" firstAttribute="leading" secondItem="hgd-aA-v3g" secondAttribute="leading" id="p7A-eK-sYx"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstItem="hgd-aA-v3g" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="1hU-em-8Tb"/>
+                <constraint firstAttribute="trailing" secondItem="hgd-aA-v3g" secondAttribute="trailing" id="9rL-Wl-jBb"/>
+                <constraint firstAttribute="bottom" secondItem="hgd-aA-v3g" secondAttribute="bottom" id="EBo-bz-eL3"/>
+                <constraint firstItem="hgd-aA-v3g" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="lVM-OP-ZOf"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <size key="customSize" width="118" height="195"/>
+            <connections>
+                <outlet property="timeLabel" destination="xPD-MI-Rye" id="wx6-NC-qKm"/>
+                <outlet property="weatherIconImageView" destination="wRS-GD-wwe" id="eng-pE-BE9"/>
+                <outlet property="windInfoLabel" destination="f9I-WF-WPY" id="zeB-Of-d5X"/>
+            </connections>
+            <point key="canvasLocation" x="74" y="120"/>
+        </collectionViewCell>
+    </objects>
+</document>

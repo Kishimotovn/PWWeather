@@ -81,7 +81,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ZLG-qQ-gYu" firstAttribute="leading" secondItem="4HQ-cH-tWY" secondAttribute="leading" id="2HY-zO-Ckh"/>
                             <constraint firstItem="re1-uE-6cc" firstAttribute="bottom" secondItem="ZrO-oF-ztd" secondAttribute="bottom" id="8Ja-8g-ztL"/>
@@ -260,11 +260,11 @@
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="aCF-me-WV7">
                                 <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                                 <subviews>
-                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rXx-cB-lYM">
+                                    <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rXx-cB-lYM">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="757"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="dly-EW-Bjt">
-                                                <rect key="frame" x="0.0" y="0.0" width="414" height="705"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="414" height="755"/>
                                                 <subviews>
                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="EE9-aJ-m3G">
                                                         <rect key="frame" x="162.5" y="0.0" width="89" height="61.5"/>
@@ -336,15 +336,15 @@
                                                         </constraints>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y9M-o0-6p1">
-                                                        <rect key="frame" x="0.0" y="218" width="414" height="100"/>
+                                                        <rect key="frame" x="0.0" y="218" width="414" height="150"/>
                                                         <subviews>
-                                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lU1-t5-HXx">
-                                                                <rect key="frame" x="0.0" y="0.0" width="414" height="100"/>
+                                                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="lU1-t5-HXx">
+                                                                <rect key="frame" x="0.0" y="0.0" width="414" height="150"/>
                                                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                 <constraints>
-                                                                    <constraint firstAttribute="height" constant="100" id="Gps-aV-edD"/>
+                                                                    <constraint firstAttribute="height" constant="150" id="Gps-aV-edD"/>
                                                                 </constraints>
-                                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uNV-uJ-ArD">
+                                                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="uNV-uJ-ArD" customClass="CityDetailsForecastsCollectionFlowLayout" customModule="PocketWorksWeather" customModuleProvider="target">
                                                                     <size key="itemSize" width="50" height="50"/>
                                                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
@@ -353,7 +353,7 @@
                                                                 <cells/>
                                                             </collectionView>
                                                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="RBC-Cp-qGT">
-                                                                <rect key="frame" x="188.5" y="31.5" width="37" height="37"/>
+                                                                <rect key="frame" x="188.5" y="56.5" width="37" height="37"/>
                                                             </activityIndicatorView>
                                                         </subviews>
                                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -367,27 +367,27 @@
                                                         </constraints>
                                                     </view>
                                                     <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="n5S-X9-imM">
-                                                        <rect key="frame" x="0.0" y="338" width="414" height="1"/>
+                                                        <rect key="frame" x="0.0" y="388" width="414" height="1"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="1" id="QtF-Lr-bpX"/>
                                                         </constraints>
                                                     </view>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Today: Rain currently. It's 19*, the high today was forecast as 22*" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUV-Te-NJE">
-                                                        <rect key="frame" x="25" y="359" width="364" height="43"/>
+                                                        <rect key="frame" x="25" y="409" width="364" height="43"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WG4-nV-jPh">
-                                                        <rect key="frame" x="0.0" y="422" width="414" height="1"/>
+                                                        <rect key="frame" x="0.0" y="472" width="414" height="1"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="1" id="Uib-ZB-YMw"/>
                                                         </constraints>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="R4r-YD-5c3">
-                                                        <rect key="frame" x="25" y="443" width="364" height="60"/>
+                                                        <rect key="frame" x="25" y="493" width="364" height="60"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="crk-BY-m9x">
                                                                 <rect key="frame" x="0.0" y="0.0" width="182" height="60"/>
@@ -429,14 +429,14 @@
                                                         </constraints>
                                                     </stackView>
                                                     <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="02z-qD-UV4">
-                                                        <rect key="frame" x="25" y="523" width="364" height="1"/>
+                                                        <rect key="frame" x="25" y="573" width="364" height="1"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="1" id="Auk-N3-EGe"/>
                                                         </constraints>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="TvO-gU-Yu8">
-                                                        <rect key="frame" x="25" y="544" width="364" height="60"/>
+                                                        <rect key="frame" x="25" y="594" width="364" height="60"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YlB-f9-HP3">
                                                                 <rect key="frame" x="0.0" y="0.0" width="182" height="60"/>
@@ -478,14 +478,14 @@
                                                         </constraints>
                                                     </stackView>
                                                     <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6Z0-qt-AUR">
-                                                        <rect key="frame" x="25" y="624" width="364" height="1"/>
+                                                        <rect key="frame" x="25" y="674" width="364" height="1"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="1" id="E2k-B4-84x"/>
                                                         </constraints>
                                                     </view>
                                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="rsx-Om-enz">
-                                                        <rect key="frame" x="25" y="645" width="364" height="60"/>
+                                                        <rect key="frame" x="25" y="695" width="364" height="60"/>
                                                         <subviews>
                                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="J1p-U9-Idb">
                                                                 <rect key="frame" x="0.0" y="0.0" width="182" height="60"/>
@@ -611,7 +611,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yKB-br-OQ2" firstAttribute="bottom" secondItem="aCF-me-WV7" secondAttribute="bottom" id="4gl-bN-K0g"/>
                             <constraint firstItem="T6e-7Z-YqD" firstAttribute="leading" secondItem="zEn-Cd-Lp1" secondAttribute="leading" id="5oa-vX-w1x"/>
@@ -629,9 +629,11 @@
                         <viewLayoutGuide key="safeArea" id="yKB-br-OQ2"/>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="RBC-Cp-qGT" id="hoC-CH-40O"/>
                         <outlet property="cityNameLabel" destination="teY-FU-UMO" id="7Qg-xk-L9z"/>
                         <outlet property="contentScrollView" destination="rXx-cB-lYM" id="6N2-AS-DvC"/>
                         <outlet property="currentTemperatureLabel" destination="dTa-MW-5lQ" id="SpH-rH-QCD"/>
+                        <outlet property="forecastsCollectionView" destination="lU1-t5-HXx" id="oz9-78-Vl6"/>
                         <outlet property="humidityLabel" destination="oZN-pi-gPW" id="Imw-rV-yl9"/>
                         <outlet property="mainWeatherLabel" destination="pJ5-Kj-Bnd" id="UZ3-ut-BE4"/>
                         <outlet property="maximumTempLabel" destination="K5x-kl-kU4" id="WLI-YR-M6U"/>

@@ -27,11 +27,16 @@ class CityListRouter: NSObject, CityListRoutingLogic, CityListDataPassing {
 
   // MARK: - Routing:
   func routeToCityDetails() {
-    guard let selectedWeatherData = self.dataStore?.selectedWeatherData else {
+    guard
+      let selectedWeatherData = self.dataStore?.selectedWeatherData,
+      let selectedCity = self.dataStore?.selectedCity
+    else {
       return
     }
 
-    let cityDetailsVC = CityDetailsViewController.route(with: selectedWeatherData)
+    let routeData = CityDetailsViewController.RouteData(city: selectedCity,
+                                                        weatherData: selectedWeatherData)
+    let cityDetailsVC = CityDetailsViewController.route(with: routeData)
     self.viewController?.present(cityDetailsVC, animated: true, completion: nil)
   }
 }

@@ -13,11 +13,13 @@
 import UIKit
 
 protocol CityDetailsBusinessLogic {
-  var openWeatherURL: URL { get }
+  var openWeatherURL: URL? { get }
   func showWeather(_ request: CityDetails.ShowWeather.Request)
+  func getForecastsData(_ request: CityDetails.GetForecastData.Request)
 }
 
 protocol CityDetailsDataStore {
+  var city: PWCity! { get set }
   var weatherData: CityWeatherResponse! { get set }
 }
 
@@ -25,15 +27,44 @@ class CityDetailsInteractor: CityDetailsBusinessLogic, CityDetailsDataStore
 {
   // MARK: - Model:
   var presenter: CityDetailsPresentationLogic?
-  var worker: CityDetailsWorker?
+  var worker: CityDetailsWorker = CityDetailsWorker(apiService: PWSession.shared.apiService)
   var weatherData: CityWeatherResponse!
-  var openWeatherURL: URL {
-    return URL(string: "https://openweathermap.org")!
+  var city: PWCity!
+  var openWeatherURL: URL? {
+    return URL(string: "https://openweathermap.org")
   }
+
+  var currentForecastResponse: [CityWeatherResponse] = []
 
   // MARK: - Public Funcs (Use cases):
   func showWeather(_ request: CityDetails.ShowWeather.Request) {
     let response = CityDetails.ShowWeather.Response(weatherData: self.weatherData)
     self.presenter?.presentShowWeather(response)
+
+    let request = CityDetails.GetForecastData.Request()
+    self.getForecastsData(request)
+  }
+
+  func getForecastsData(_ request: CityDetails.GetForecastData.Request) {
+    self.toggleForecastLoading(to: true)
+    self.worker.getForecastsData(for: "\(self.city.id)")
+    .always {
+      self.toggleForecastLoading(to: false)
+    }.then { forecastData in
+      self.currentForecastResponse = forecastData
+      let timezoneOffset = self.weatherData.sys?.timezone ?? 0
+      let response = CityDetails.GetForecastData.Response(forecastData: forecastData,
+                                                          timezoneOffset: timezoneOffset)
+      self.presenter?.presentGetForecastData(response)
+    }.catch { error in
+      let response = CityDetails.ShowError.Response(error: error)
+      self.presenter?.presentShowError(response)
+    }
+  }
+
+  // MARK: - Private Funcs:
+  private func toggleForecastLoading(to isLoading: Bool) {
+    let response = CityDetails.ToggleForecastLoading.Response(isLoading: isLoading)
+    self.presenter?.presentToggleForecastLoading(response)
   }
 }

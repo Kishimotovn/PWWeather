@@ -35,4 +35,33 @@ enum CityDetails {
       var visibility: String
     }
   }
+
+  enum GetForecastData {
+    struct Request { }
+    struct Response {
+      var forecastData: [CityWeatherResponse]
+      var timezoneOffset: Double
+    }
+    struct ViewModel {
+      var forecastVMs: [WindForecastCell.ViewModel]
+    }
+  }
+
+  enum ToggleForecastLoading {
+    struct Response {
+      var isLoading: Bool
+    }
+    struct ViewModel {
+      var isLoading: Bool
+    }
+  }
+
+  enum ShowError {
+    struct Response {
+      var error: Error
+    }
+    struct ViewModel {
+      var errorString: String
+    }
+  }
 }

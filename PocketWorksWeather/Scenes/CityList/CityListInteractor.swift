@@ -22,6 +22,7 @@ protocol CityListBusinessLogic {
 }
 
 protocol CityListDataStore {
+  var selectedCity: PWCity? { get }
   var selectedWeatherData: CityWeatherResponse? { get }
 }
 
@@ -36,6 +37,7 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
   var reloadTimer: Timer?
   let reloadTimeInterval: TimeInterval = 10*60 // 10 minutes per reload (as suggested by api)
   var selectedWeatherData: CityWeatherResponse?
+  var selectedCity: PWCity?
 
   // MARK: - Public Funcs (Use cases):
   func getCityList(_ request: CityList.GetCityList.Request) {
@@ -90,10 +92,14 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
   func selectCity(_ request: CityList.SelectCity.Request) {
     let selectedIndex = request.selectedIndex
 
-    guard selectedIndex >= 0, self.currentWeatherData.count > selectedIndex else {
+    guard
+      selectedIndex >= 0,
+      self.currentWeatherData.count > selectedIndex,
+      self.currentCities.count > selectedIndex else {
       return
     }
 
+    self.selectedCity = self.currentCities[selectedIndex]
     self.selectedWeatherData = self.currentWeatherData[selectedIndex]
     let response = CityList.SelectCity.Response()
     self.presenter?.presentSelectCity(response)
@@ -105,7 +111,9 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
 
     self.toggleReloadStatus(to: true)
     all(self.worker.getWeatherData(for: cityIds), self.worker.getCities(for: cityIds))
-      .then { weatherData, cities in
+      .always {
+        self.toggleReloadStatus(to: false)
+      }.then { weatherData, cities in
         self.currentCities = cities
         self.currentWeatherData = weatherData
 
@@ -114,10 +122,9 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
           unitSystem: PWSession.shared.unitSystem)
         self.presenter?.presentGetCityList(response)
       }.catch { error in
-        print(error.localizedDescription)
-      }.always {
-        self.toggleReloadStatus(to: false)
-    }
+        let response = CityList.ShowError.Response(error: error)
+        self.presenter?.presentShowError(response)
+      }
   }
 
   private func toggleReloadStatus(to reloadStatus: Bool) {

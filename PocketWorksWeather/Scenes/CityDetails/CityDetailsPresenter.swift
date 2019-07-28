@@ -14,6 +14,9 @@ import UIKit
 
 protocol CityDetailsPresentationLogic {
   func presentShowWeather(_ response: CityDetails.ShowWeather.Response)
+  func presentGetForecastData(_ response: CityDetails.GetForecastData.Response)
+  func presentToggleForecastLoading(_ response: CityDetails.ToggleForecastLoading.Response)
+  func presentShowError(_ response: CityDetails.ShowError.Response)
 }
 
 class CityDetailsPresenter: CityDetailsPresentationLogic {
@@ -44,7 +47,7 @@ class CityDetailsPresenter: CityDetailsPresentationLogic {
     let weatherData = response.weatherData
     let cityName = weatherData.name ?? "N/A"
     let mainWeather = weatherData.weather?.first?.main ?? ""
-    let windInfo = self.buildWindInfoString(from: weatherData.wind)
+    let windInfo = self.buildWindInfoString(from: weatherData.wind, baseFontSize: 33)
     let localDate = Date().addingTimeInterval(weatherData.sys?.timezone ?? 0)
     let weekDay = self.weekDayDateFormatter.string(from: localDate)
     let maximumTemp = (weatherData.main?.tempMax ?? 0.0).tempString(for: PWSession.shared.unitSystem)
@@ -75,19 +78,49 @@ class CityDetailsPresenter: CityDetailsPresentationLogic {
     self.viewController?.displayShowWeather(viewModel)
   }
 
+  func presentGetForecastData(_ response: CityDetails.GetForecastData.Response) {
+    let forecastVMs = response.forecastData.map {
+      return buildForecastVM(from: $0, timezoneOffset: response.timezoneOffset)
+    }
+    let viewModel = CityDetails.GetForecastData.ViewModel(forecastVMs: forecastVMs)
+    self.viewController?.displayGetForecastData(viewModel)
+  }
+
+  func presentToggleForecastLoading(_ response: CityDetails.ToggleForecastLoading.Response) {
+    let viewModel = CityDetails.ToggleForecastLoading.ViewModel(isLoading: response.isLoading)
+    self.viewController?.displayToggleForecastLoading(viewModel)
+  }
+
+  func presentShowError(_ response: CityDetails.ShowError.Response) {
+    let viewModel = CityDetails.ShowError.ViewModel(errorString: response.error.localizedDescription)
+    self.viewController?.displayShowError(viewModel)
+  }
+
   // MARK: - Private Funcs:
-  private func buildWindInfoString(from windData: CityWindResponse?) -> NSAttributedString {
+  private func buildForecastVM(from weatherData: CityWeatherResponse, timezoneOffset: Double) -> WindForecastCell.ViewModel {
+    let time = self.buildTimeString(from: weatherData.dt?.addingTimeInterval(timezoneOffset))
+    let iconName = weatherData.weather?.first?.icon ?? "10d"
+    let iconURL = URL(string: "http://openweathermap.org/img/wn/\(iconName)@2x.png")
+    let windInfo = self.buildWindInfoString(from: weatherData.wind, baseFontSize: 12)
+
+    return WindForecastCell.ViewModel(
+      time: time,
+      imageUrl: iconURL,
+      windInfo: windInfo)
+  }
+
+  private func buildWindInfoString(from windData: CityWindResponse?, baseFontSize: CGFloat) -> NSAttributedString {
     let windSpeed = windData?.speed ?? 0.0
     let windDirectionString = NSMutableAttributedString()
     if let windDirection = windData?.deg {
       let direction = WindDirection(windDirection)
       let directionString = NSAttributedString(string: "\(direction) ".uppercased())
         .applyForegroundColor(.white)
-        .applyFont(UIFont.systemFont(ofSize: 34, weight: .medium))
+        .applyFont(UIFont.systemFont(ofSize: baseFontSize, weight: .medium))
       windDirectionString.append(directionString)
     }
     let windSpeedString = NSAttributedString(string: windSpeed.windSpeedString(for: PWSession.shared.unitSystem))
-      .applyFont(UIFont.systemFont(ofSize: 45, weight: .thin))
+      .applyFont(UIFont.systemFont(ofSize: baseFontSize * 1.4, weight: .thin))
       .applyForegroundColor(.white)
     windDirectionString.append(windSpeedString)
 
@@ -104,7 +137,7 @@ class CityDetailsPresenter: CityDetailsPresentationLogic {
 
   private func buildHumidity(from humidityLevel: Double?) -> String {
     if let validHumidityLevel = humidityLevel {
-      return "\(validHumidityLevel)%"
+      return "\(Int(validHumidityLevel))%"
     }
     return "N/A"
   }

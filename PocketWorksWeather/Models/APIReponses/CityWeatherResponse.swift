@@ -15,7 +15,7 @@ struct CityWeatherResponse: Decodable {
   var visibility: Double?
   var wind: CityWindResponse?
   var clouds: CityCloudsResponse?
-  var dt: Int?
+  var dt: Date?
   var sys: CitySysResponse?
   var id: Int?
   var name: String?

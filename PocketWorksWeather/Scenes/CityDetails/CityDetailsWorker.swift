@@ -11,6 +11,16 @@
 //
 
 import UIKit
+import Promises
 
 class CityDetailsWorker {
+  var apiService: PWAPIServiceProtocol
+
+  init(apiService: PWAPIServiceProtocol) {
+    self.apiService = apiService
+  }
+
+  func getForecastsData(for cityId: String) -> Promise<[CityWeatherResponse]> {
+    return self.apiService.getCityWeatherForecast(for: cityId)
+  }
 }
