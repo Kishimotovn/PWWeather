@@ -30,36 +30,41 @@ class CityDetailsPresentationTransition: NSObject, UIViewControllerAnimatedTrans
                                                  to: fromVC.view)
 
     cellSnapshot.frame = frame
+    toVC.contentStackView.alpha = 0.0
     
     let containerView = transitionContext.containerView
     let finalFrame = transitionContext.finalFrame(for: toVC)
     
     let transitioningView = UIView(frame: frame)
-    transitioningView.backgroundColor = UIColor.white.withAlphaComponent(0.5)
-    
-    containerView.insertSubview(transitioningView, aboveSubview: toVC.view)
-    containerView.insertSubview(cellSnapshot, aboveSubview: transitioningView)
-    containerView.insertSubview(toVC.view, aboveSubview: transitioningView)
+    transitioningView.backgroundColor = UIColor.white
+
+    let transitioningMask = CAShapeLayer()
+    transitioningMask.path = UIBezierPath(rect: frame).cgPath
+    transitioningMask.fillColor = UIColor.black.cgColor
+
+    containerView.insertSubview(toVC.view, aboveSubview: fromVC.view)
+    containerView.insertSubview(cellSnapshot, aboveSubview: toVC.view)
+
     selectedCell.alpha = 0.0
-    toVC.view.alpha = 0.0
-    
+    toVC.view.mask = transitioningView
+
     let duration = self.transitionDuration(using: transitionContext)
-    
+
     UIView.animateKeyframes(withDuration: duration,
                             delay: 0.0,
-                            options: .calculationModeCubicPaced,
+                            options: .calculationModeCubic,
                             animations: {
-                              UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 1/2, animations: {
+                              UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 0.15, animations: {
                                 cellSnapshot.alpha = 0.0
                               })
-                              UIView.addKeyframe(withRelativeStartTime: 0.0, relativeDuration: 4/5, animations: {
+                              UIView.addKeyframe(withRelativeStartTime: 0.15, relativeDuration: 0.7, animations: {
                                 transitioningView.frame = finalFrame
                               })
-                              UIView.addKeyframe(withRelativeStartTime: 4/5, relativeDuration: 1/5, animations: {
-                                toVC.view.alpha = 1.0
+                              UIView.addKeyframe(withRelativeStartTime: 0.2, relativeDuration: 0.8, animations: {
+                                toVC.contentStackView.alpha = 1.0
                               })
     }, completion: { _ in
-      transitioningView.removeFromSuperview()
+      toVC.view.mask = nil
       cellSnapshot.removeFromSuperview()
       selectedCell.alpha = 1.0
       transitionContext.completeTransition(!transitionContext.transitionWasCancelled)

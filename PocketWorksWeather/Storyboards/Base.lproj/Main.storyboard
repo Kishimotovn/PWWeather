@@ -20,6 +20,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgMain" translatesAutoresizingMaskIntoConstraints="NO" id="MsG-oV-gSO">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="owb-gc-VVz">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -81,7 +82,7 @@
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="ZLG-qQ-gYu" firstAttribute="leading" secondItem="4HQ-cH-tWY" secondAttribute="leading" id="2HY-zO-Ckh"/>
                             <constraint firstItem="re1-uE-6cc" firstAttribute="bottom" secondItem="ZrO-oF-ztd" secondAttribute="bottom" id="8Ja-8g-ztL"/>
@@ -248,6 +249,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="bgMain" translatesAutoresizingMaskIntoConstraints="NO" id="zEn-Cd-Lp1">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T6e-7Z-YqD">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -611,7 +613,7 @@
                                 </constraints>
                             </stackView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="0.5" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="yKB-br-OQ2" firstAttribute="bottom" secondItem="aCF-me-WV7" secondAttribute="bottom" id="4gl-bN-K0g"/>
                             <constraint firstItem="T6e-7Z-YqD" firstAttribute="leading" secondItem="zEn-Cd-Lp1" secondAttribute="leading" id="5oa-vX-w1x"/>
@@ -632,6 +634,7 @@
                         <outlet property="activityIndicator" destination="RBC-Cp-qGT" id="hoC-CH-40O"/>
                         <outlet property="cityNameLabel" destination="teY-FU-UMO" id="7Qg-xk-L9z"/>
                         <outlet property="contentScrollView" destination="rXx-cB-lYM" id="6N2-AS-DvC"/>
+                        <outlet property="contentStackView" destination="aCF-me-WV7" id="tjr-as-RL9"/>
                         <outlet property="currentTemperatureLabel" destination="dTa-MW-5lQ" id="SpH-rH-QCD"/>
                         <outlet property="forecastsCollectionView" destination="lU1-t5-HXx" id="oz9-78-Vl6"/>
                         <outlet property="humidityLabel" destination="oZN-pi-gPW" id="Imw-rV-yl9"/>

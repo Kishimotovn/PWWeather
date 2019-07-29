@@ -50,6 +50,7 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
   @IBOutlet weak var visibilityLabel: UILabel!
   @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
   @IBOutlet weak var forecastsCollectionView: UICollectionView!
+  @IBOutlet weak var contentStackView: UIStackView!
 
   // MARK: - IBActions:
   @IBAction func back() {
