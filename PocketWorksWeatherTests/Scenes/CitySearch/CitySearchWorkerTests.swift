@@ -18,14 +18,6 @@ import Promises
 class CitySearchWorkerSpec: QuickSpec {
   // MARK: - Subject under test:
   var sut: CitySearchWorker!
-  
-  class CityListProviderSpy: CityListProvider {
-    var fetchCityListCalled = false
-    func fetchCityList() -> Promise<[PWCity]> {
-      self.fetchCityListCalled = true
-      return Promise([Seed.hanoi])
-    }
-  }
 
   // MARK: - Spec:
   override func spec() {
@@ -36,7 +28,7 @@ class CitySearchWorkerSpec: QuickSpec {
 
       context("when asked to search for city") {
         it("should ask provider for the city list") {
-          let spy = CityListProviderSpy()
+          let spy = StubbedCityListProvider()
           self.sut.cityListProvider = spy
 
           _ = self.sut.searchForCity(using: "some term")
@@ -45,7 +37,7 @@ class CitySearchWorkerSpec: QuickSpec {
         }
 
         it("should filter and return result if there is any") {
-          let spy = CityListProviderSpy()
+          let spy = StubbedCityListProvider()
           self.sut.cityListProvider = spy
 
           waitUntil { done in
@@ -57,7 +49,7 @@ class CitySearchWorkerSpec: QuickSpec {
         }
 
         it("should filter and return empty result if there is none") {
-          let spy = CityListProviderSpy()
+          let spy = StubbedCityListProvider()
           self.sut.cityListProvider = spy
           
           waitUntil { done in

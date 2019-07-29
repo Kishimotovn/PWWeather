@@ -14,10 +14,10 @@ import UIKit
 import Promises
 
 class CityListWorker {
-  var apiService: PWAPIService
+  var apiService: PWAPIServiceProtocol
   var cityListProvider: CityListProvider
 
-  init(apiService: PWAPIService, cityListProvider: CityListProvider) {
+  init(apiService: PWAPIServiceProtocol, cityListProvider: CityListProvider) {
     self.apiService = apiService
     self.cityListProvider = cityListProvider
   }

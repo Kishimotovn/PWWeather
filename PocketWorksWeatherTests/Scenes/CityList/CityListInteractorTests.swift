@@ -124,7 +124,7 @@ class CityListInteractorSpec: QuickSpec {
         it("should ask worker to fetch data and ask presenter to present the list") {
           let spy = CityListPresentationLogicSpy()
           self.sut.presenter = spy
-          let workerSpy = CityListWorkerSpy(apiService: PWSession.shared.apiService, cityListProvider: PWSession.shared)
+          let workerSpy = CityListWorkerSpy(apiService: StubbedPWAPIService(), cityListProvider: StubbedCityListProvider())
           self.sut.worker = workerSpy
           let request = CityList.GetCityList.Request()
 
@@ -155,7 +155,7 @@ class CityListInteractorSpec: QuickSpec {
         it("should ask presenter to present reload status when adding requested city") {
           let spy = CityListPresentationLogicSpy()
           self.sut.presenter = spy
-          let workerSpy = CityListWorkerSpy(apiService: PWSession.shared.apiService, cityListProvider: PWSession.shared)
+          let workerSpy = CityListWorkerSpy(apiService: StubbedPWAPIService(), cityListProvider: StubbedCityListProvider())
           self.sut.worker = workerSpy
   
           let request = CityList.RegisterNewCity.Request(city: Seed.hanoi)
@@ -170,7 +170,7 @@ class CityListInteractorSpec: QuickSpec {
         it("should ask presenter to present result if found") {
           let spy = CityListPresentationLogicSpy()
           self.sut.presenter = spy
-          let workerSpy = CityListWorkerSpy(apiService: PWSession.shared.apiService, cityListProvider: PWSession.shared)
+          let workerSpy = CityListWorkerSpy(apiService: StubbedPWAPIService(), cityListProvider: StubbedCityListProvider())
           self.sut.worker = workerSpy
           
           let request = CityList.RegisterNewCity.Request(city: Seed.hanoi)

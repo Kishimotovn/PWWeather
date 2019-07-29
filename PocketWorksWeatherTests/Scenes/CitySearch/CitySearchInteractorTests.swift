@@ -68,7 +68,8 @@ class CitySearchInteractorSpec: QuickSpec {
           let request = CitySearch.UpdateResults.Request(searchTerm: "some term")
           let spy = CitySearchPresentationLogicSpy()
           self.sut.presenter = spy
-          
+          self.sut.worker = CitySearchWorkerSpy(cityListProvider: StubbedCityListProvider())
+
           self.sut.updateResults(request)
 
           expect(spy.presentValidatingCityNameResponses.count).toEventually(equal(2), timeout: 10)
@@ -77,7 +78,7 @@ class CitySearchInteractorSpec: QuickSpec {
 
         it("should ask worker to find results") {
           let request = CitySearch.UpdateResults.Request(searchTerm: "some term")
-          let spy = CitySearchWorkerSpy(cityListProvider: PWSession.shared)
+          let spy = CitySearchWorkerSpy(cityListProvider: StubbedCityListProvider())
           self.sut.worker = spy
           
           self.sut.updateResults(request)
@@ -88,7 +89,7 @@ class CitySearchInteractorSpec: QuickSpec {
         it("should ask presenter to present results when results are found") {
           let request = CitySearch.UpdateResults.Request(searchTerm: "some term")
           let presenterSpy = CitySearchPresentationLogicSpy()
-          let workerSpy = CitySearchWorkerSpy(cityListProvider: PWSession.shared)
+          let workerSpy = CitySearchWorkerSpy(cityListProvider: StubbedCityListProvider())
           self.sut.presenter = presenterSpy
           self.sut.worker = workerSpy
 
@@ -102,7 +103,7 @@ class CitySearchInteractorSpec: QuickSpec {
         it("should ask presenter to present results when results are found") {
           let request = CitySearch.UpdateResults.Request(searchTerm: Seed.hanoi.name)
           let presenterSpy = CitySearchPresentationLogicSpy()
-          let workerSpy = CitySearchWorkerSpy(cityListProvider: PWSession.shared)
+          let workerSpy = CitySearchWorkerSpy(cityListProvider: StubbedCityListProvider())
           self.sut.presenter = presenterSpy
           self.sut.worker = workerSpy
           
@@ -118,6 +119,8 @@ class CitySearchInteractorSpec: QuickSpec {
           let anotherRequest = CitySearch.UpdateResults.Request(searchTerm: "some terms")
           let presenterSpy = CitySearchPresentationLogicSpy()
           self.sut.presenter = presenterSpy
+          let workerSpy = CitySearchWorkerSpy(cityListProvider: StubbedCityListProvider())
+          self.sut.worker = workerSpy
           
           self.sut.updateResults(request)
           self.sut.updateResults(anotherRequest)

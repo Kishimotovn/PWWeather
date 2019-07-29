@@ -40,9 +40,6 @@ class CityDetailsInteractor: CityDetailsBusinessLogic, CityDetailsDataStore
   func showWeather(_ request: CityDetails.ShowWeather.Request) {
     let response = CityDetails.ShowWeather.Response(weatherData: self.weatherData)
     self.presenter?.presentShowWeather(response)
-
-    let request = CityDetails.GetForecastData.Request()
-    self.getForecastsData(request)
   }
 
   func getForecastsData(_ request: CityDetails.GetForecastData.Request) {

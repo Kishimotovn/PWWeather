@@ -99,6 +99,9 @@ class CityDetailsViewController: UIViewController, CityDetailsDisplayLogic, Rout
     self.sunsetLabel.text = viewModel.sunset
     self.pressureLabel.text = viewModel.pressure
     self.visibilityLabel.text = viewModel.visibility
+
+    let request = CityDetails.GetForecastData.Request()
+    self.interactor?.getForecastsData(request)
   }
 
   func displayToggleForecastLoading(_ viewModel: CityDetails.ToggleForecastLoading.ViewModel) {
