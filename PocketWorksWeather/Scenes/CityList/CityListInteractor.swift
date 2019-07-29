@@ -68,9 +68,9 @@ class CityListInteractor: CityListBusinessLogic, CityListDataStore {
     .always {
       self.toggleReloadStatus(to: false)
     }.then { response in
-      PWSession.shared.cityIdList.append(requestedCity.id)
-      self.currentCities.append(requestedCity)
-      self.currentWeatherData.append(response)
+      PWSession.shared.cityIdList.insert(requestedCity.id, at: 0)
+      self.currentCities.insert(requestedCity, at: 0)
+      self.currentWeatherData.insert(response, at: 0)
 
       let response = CityList.RegisterNewCity.Response(weatherData: response)
       self.presenter?.presentRegisterNewCity(response)
