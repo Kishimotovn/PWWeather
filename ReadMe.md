@@ -63,6 +63,12 @@
 - Activity Indicator and error handling with Promise pattern.
 - Autolayout are implemented for an adaptive design.
 
+## Testing:
+
+- 70 tests that cover the whole app.
+- Written with Quick/Nimble.
+- Black box tested all modules with spied on all interacted interfaces of the module.
+
 ## Some screen shots of the app:
 
 ![Home Screen](/screenshots/home.png?raw=true 'Home Screen')
